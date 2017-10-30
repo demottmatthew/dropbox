@@ -40,14 +40,13 @@ router.post('/api/login', async (req, res) => {
     // console.log('Logged in', results.id, req.session.id)
     req.session.userId = results.id
 
-    await db.updateLastSeen(results.id)
+    //await db.updateLastSeen(results.id)
     res.send({
       success: true,
       id: results.id,
       lastName: results.lastName,
       firstName: results.firstName,
-      email: results.email,
-      lastSeen: results.lastSeen ? results.lastSeen : 'never'
+      email: results.email
     })
   } catch (e) {
     console.log(e)

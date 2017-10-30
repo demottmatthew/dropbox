@@ -50,8 +50,8 @@ const verifyPassword = (user, pass) => {
  */
 const DUPCHECK_Q = 'SELECT USERNAME, USER_EMAIL FROM USER WHERE USERNAME = ? OR USER_EMAIL = ?'
 const REGISTER_Q = `INSERT INTO USER
-(USERNAME, USER_LNAME, USER_FNAME, USER_EMAIL, USER_PASS_HASH, VER_TOKEN, VER_CODE, LAST_SEEN)
-VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+(USERNAME, USER_LNAME, USER_FNAME, USER_EMAIL, USER_PASS_HASH, VER_TOKEN, VER_CODE)
+VALUES(?, ?, ?, ?, ?, ?, ?)`
 pool.registerUser = info => {
   return new Promise(async (resolve, reject) => {
     if (!info.username || !info.email ||
@@ -135,7 +135,7 @@ pool.checkNewEmail = (id, info) => {
 /*
  * Check user's password and return user info if it is valid
  */
-const LOGIN_Q = 'SELECT USER_ID, USER_LNAME, USER_FNAME, USER_EMAIL, USER_PASS_HASH, VERIFIED, LAST_SEEN FROM USER WHERE USERNAME = ?'
+const LOGIN_Q = 'SELECT USER_ID, USER_LNAME, USER_FNAME, USER_EMAIL, USER_PASS_HASH, VERIFIED FROM USER WHERE USERNAME = ?'
 pool.loginUser = info => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -158,8 +158,7 @@ pool.loginUser = info => {
           id: results[0].USER_ID,
           lastName: results[0].USER_LNAME,
           firstName: results[0].USER_FNAME,
-          email: results[0].USER_EMAIL,
-          lastSeen: results[0].LAST_SEEN
+          email: results[0].USER_EMAIL
         })
       } else {
         // login failure
@@ -232,10 +231,6 @@ pool.getProfileData = id => {
     }
   })
 }
-
-// This function will query the database for the first 16 tags.
-const GET_ONBOARD_CHANNELS_Q = `SELECT * FROM CHANNEL LIMIT 16;`
-pool.getOnboardChannels = pool.query.bind(pool, GET_ONBOARD_CHANNELS_Q, [])
 
 const LAST_SEEN_Q = `
 UPDATE USER

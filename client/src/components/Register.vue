@@ -5,7 +5,6 @@
         <div class="columns is-vcentered">
           <div class="column is-4 is-offset-4">
             <h4 class="title has-text-centered is-4">
-              <img src="../assets/brand_central_icon.png" style="max-width: 20%">
             </h4>
             <div class="box">
               <h4 class="title has-text-centered is-4">Register Account</h4>

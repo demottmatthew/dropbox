@@ -17,7 +17,7 @@
   "author": "",
   "license": "GPL-3.0",
   "apidoc": {
-   "title": "Brand Central API Documentation"
+    "title": "Brand Central API Documentation"
   },
   "dependencies": {
     "apidoc": "^0.17.6",
