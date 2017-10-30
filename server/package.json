@@ -1,0 +1,54 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend server for brand central station.",
+  "main": "",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "./node_modules/.bin/mocha --exit test/tests.js",
+    "init-db": "cd db && node execdb.js setup && cd ../",
+    "uninit-db": "cd db && node execdb.js teardown && cd ../",
+    "doc": "./node_modules/.bin/apidoc -i src -o doc && ./node_modules/.bin/http-server doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evan-bradley/brandcentralstation"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "apidoc": {
+   "title": "Brand Central API Documentation"
+  },
+  "dependencies": {
+    "apidoc": "^0.17.6",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.17.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "crypt": "0.0.2",
+    "crypto-promise": "^2.0.0",
+    "dotenv": "^4.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "express": "^4.15.2",
+    "express-mysql-session": "^1.2.0",
+    "express-session": "^1.15.1",
+    "express-socket.io-session": "^1.3.2",
+    "faker": "^4.1.0",
+    "http-server": "^0.10.0",
+    "mocha": "^4.0.1",
+    "mocha-eslint": "^4.1.0",
+    "mocha-standard": "^1.0.0",
+    "moment": "^2.18.1",
+    "moment-range": "^3.0.3",
+    "mysql": "^2.13.0",
+    "nodemailer": "^4.1.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "promise-mysql": "^3.1.0",
+    "socket.io": "^1.7.3",
+    "standard": "^10.0.3",
+    "vue-event-calendar": "^1.4.11",
+    "vue-fullcalendar": "^1.0.9",
+    "vue-resource": "^1.2.1"
+  }
+}

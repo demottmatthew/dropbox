@@ -1,0 +1,113 @@
+
+$primary: #EF233C
+$secondary: #E74C3C
+$alterntive: #ECF0F1
+$alterntive2: #3498DB
+$alterntive3: #2980B9
+$danger: $secondary
+$link-hover: $secondary
+$section-padding: 20px
+
+@import '../node_modules/bulma/bulma'
+
+html
+    font-family: 'Roboto', sans-serif
+
+.is-centered
+    text-align: center
+
+.inline-block
+    display: inline-block
+
+.small-padding
+    padding: 5px
+
+.left-right-margins
+    margin: 0 10px
+
+.large-margins
+    margin: 15px
+
+.full-width
+    width: 100%
+
+.fa-big
+    font-size: 30px !important
+
+.fa-huge
+    font-size: 200px !important
+
+.search-bar
+    border-radius: 15px
+    padding: 4px
+    border-color: $primary
+    box-shadow: none
+
+.search-bar:focus
+    outline: none
+
+.large-buttons
+    min-width: 600px
+    min-height: 120px
+    font-size: 30px
+    border-radius: 15px
+
+.medium-buttons
+    min-width: 300px
+    min-height: 80px
+    font-size: 20px
+    border-radius: 15px
+
+
+li
+    list-style: none
+
+.title-bar
+    margin-right: -20px
+    margin-left: -20px
+
+.profile-image
+    border-radius: 50%
+    margin-right: 10px
+
+.selected-tag
+    & h3
+        color: white
+    background-color: $primary
+    color: white
+
+.upvote-button
+    border-radius: 1000px
+    color:  $success
+    padding: 10px
+
+.downvote-button
+    border-radius: 1000px
+    color: $danger
+    padding: 10px
+
+.upvote-button:hover
+    background-color: $success
+    color:  $white
+    padding: 10px
+
+.downvote-button:hover
+    background-color: $danger
+    color:  $white
+    padding: 10px
+
+.left-right-buttons
+    border-radius: 1000px
+    color: $info
+    padding: 10px
+
+.left-right-buttons:hover
+    background-color: $info
+    color:  $white
+    padding: 10px
+
+.voting-item
+    &.small
+        height: 100%
+        .box
+            height: 100%
