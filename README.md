@@ -1,7 +1,3 @@
-![Brand Central Station](https://github.com/evan-bradley/brandcentralstation/blob/master/client/src/assets/brand_central_full.png)
-
-[Live Website](http://brandcentral.xyz/)
-
 ## Build and Run
 
 ### Setup MySQL Database and Tables
