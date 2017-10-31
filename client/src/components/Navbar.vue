@@ -5,7 +5,10 @@
         <img src="../assets/brand_central_icon.png">
       </router-link>
       <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
-        Browse
+        Files
+      </router-link>
+      <router-link class="navbar-item" :to="{ name: 'UploadFiles' }">
+        Upload
       </router-link>
     </div>
     <div class="navbar-end">
@@ -22,8 +25,8 @@
           <hr class="navbar-divider">
           <router-link :to="{ name: 'Profile', params:{ userId: this.$store.state.User.Id } }" class="navbar-item">Profile</router-link>
           <router-link :to="{ name: 'EditProfile' }" class="navbar-item">Settings</router-link>
-          <!--<a class="navbar-item">About</a>  
-          about is empty right now. we can add it back when we get something to put here--> 
+          <!--<a class="navbar-item">About</a>
+          about is empty right now. we can add it back when we get something to put here-->
           <hr class="navbar-divider">
           <a class="navbar-item" @click="signOut">Sign out</a>
         </div>

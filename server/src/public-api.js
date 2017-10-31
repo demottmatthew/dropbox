@@ -8,13 +8,13 @@ const nodemailer = require('nodemailer')
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-  host: 'mail.cock.li',
-  port: 465,
-  secure: true, // true for 465, false for other ports
-  auth: {
-    user: 'BrandCentralStation@firemail.cc', // generated ethereal user
-    pass: 'brandcentral' // generated ethereal password
-  }
+    host: 'mail.cock.li',
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+        user: 'csi3660dropbox@firemail.cc', // generated ethereal user
+        pass: 'CSI3660dropbox' // generated ethereal password
+    }
 })
 
 /**
@@ -80,14 +80,13 @@ router.post('/api/register', async (req, res) => {
     req.session.userId = results.insertId
 
     const registerEmail = {
-      from: '"Brand Central Station" <BrandCentralStation@firemail.cc>', // sender address
+      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
       to: req.body.email,
       subject: 'Hello ✔', // Subject line
-      text: 'Hello, thanks for signing up. Please click this link to verify your account:\n' // plain text body
+      text: 'Hello, thanks for signing up. Please enter the code:\n' // plain text body
     }
 
-    registerEmail.text += `http://${process.env.URL}/verify?token=${results.token}`
-    registerEmail.text += `\nYou can also enter the following code: ${results.code}`
+    registerEmail.text += `\nEnter the following code: ${results.code}`
 
     transporter.sendMail(registerEmail, (error, info) => {
       if (error) {

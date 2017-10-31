@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Backend server for brand central station.",
+  "description": "Backend server for dropbox.",
   "main": "",
   "scripts": {
     "start": "node src/server.js",
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/evan-bradley/brandcentralstation"
+    "url": "https://github.com/demottmatthew/dropbox"
   },
   "author": "",
   "license": "GPL-3.0",
   "apidoc": {
-    "title": "Brand Central API Documentation"
+    "title": "Dropbox API Documentation"
   },
   "dependencies": {
     "apidoc": "^0.17.6",
@@ -41,7 +41,8 @@
     "moment": "^2.18.1",
     "moment-range": "^3.0.3",
     "mysql": "^2.13.0",
-    "nodemailer": "^4.1.0",
+    "nodemailer": "^4.3.1",
+    "nodemailer-smtp-transport": "^2.7.4",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "promise-mysql": "^3.1.0",

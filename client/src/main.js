@@ -6,10 +6,11 @@ import App from './App'
 import router from './router'
 import store from './Vuex/states'
 import VeeValidate from 'vee-validate'
+import VueClip from 'vue-clip'
 
 Vue.use(VeeValidate)
 Vue.use(VueResource)
-
+Vue.use(VueClip)
 Vue.config.productionTip = false
 window._ = require('lodash')
 

@@ -13,6 +13,7 @@ import ResetPassword from '@/components/RecoverPassword'
 import Interests from '@/components/Interests'
 import WelcomePage from '@/components/WelcomePage'
 import Channel from '@/components/Channel'
+import UploadFiles from '@/components/UploadFiles'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -95,6 +96,11 @@ const router = new Router({
         hideNav: true,
         requireAuth: false
       }
+    },
+    {
+      path: '/upload',
+      name: 'UploadFiles',
+      component: UploadFiles
     },
     {
       path: '/',
