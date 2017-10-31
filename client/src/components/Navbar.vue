@@ -2,7 +2,7 @@
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
-        <img src="../assets/brand_central_icon.png">
+        <img src="../assets/download_arrow.jpg">
       </router-link>
       <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
         Files
