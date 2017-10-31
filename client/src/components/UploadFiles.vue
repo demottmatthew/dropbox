@@ -9,9 +9,12 @@
         <template slot="clip-uploader-body" scope="props">
           <div v-for="file in props.files">
             <img v-bind:src="file.dataUrl" />
-            {{ file.name }}
-            {{file.size}}
-            {{file.status}}
+            <br>
+            file name: {{ file.name }}
+            <br>
+            file size:{{file.size}}
+            <br>
+            file status: {{file.status}}
           </div>
         </template>
   </vue-clip>
@@ -31,15 +34,18 @@
 
     methods: {
       addedFile (file) {
+        console.log(file)
         const body = {
-          file: file,
+          file: btoa(file),
           filename: file.name,
           filesize: file.size
         }
+        console.log(body.file)
         this.$http.post('/api/user/upload', body)
           .then(response => {
             if (response.data.success) {
               console.log('success')
+              file.status = 'success'
             }
           }, response => {
             console.log('fail')

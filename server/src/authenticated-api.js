@@ -682,9 +682,10 @@ router.get('/api/product/userpreference/:uid', async (req, res) => {
 
 router.post('/api/user/upload', async (req, res) => {
   try {
-        await db.uploadFile(req.body.filename, req.body.filesize, req.body.file, req.session.userId)
+        const results = await db.uploadFile(req.body.filename, req.body.filesize, req.body.file, req.session.userId)
         res.send({
-        success: true
+        success: true,
+        file: req.body.file
       })
   } catch (e) {
       res.send({
