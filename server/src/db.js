@@ -294,4 +294,22 @@ pool.generatePasswordResetToken = email => {
   })
 }
 
+const UPLOAD_Q = 'INSERT INTO FILES (FILENAME, FILESIZE, FILEDATA, TIME_SUBMITTED, USER_ID) VALUES(?, ?, ?, ?, ?)'
+
+pool.uploadFile = (filename, filesize, file, uid) => {
+    return new Promise(async (resolve, reject) => {
+        if (!filename || !filesize || !file || !uid) {
+        reject(new Error('Missing a required field'))
+        return
+    }
+
+    try {
+        await pool.query(UPLOAD_Q, [filename, filesize, file, moment().format('YYYY-MM-DD HH:mm:ss'), uid])
+        resolve()
+    } catch (e) {
+        reject(e)
+    }
+  })
+}
+
 module.exports = pool
