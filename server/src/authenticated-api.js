@@ -50,7 +50,6 @@ router.post('/api/profile/:id', async (req, res) => {
     })
   }
 })
-
 /**
  * @api {get} api/profile/:id Get user information
  * @apiName GetProfile
@@ -662,6 +661,36 @@ router.get('/api/product/userpreference/:uid', async (req, res) => {
       success: false,
       message: e
     })
+  }
+})
+
+
+/**
+ * @api {get} /api/users/channel/search/:searchFor Search for users and channels
+ * @apiName SearchForChannelsAndUsers
+ * @apiGroup
+ *
+ * @apiParam {String} uid user id that you want to look for
+ * @apiParam {Number} pid product id to check (query)
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiSuccess {String}  preference will return like/dislike/none
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ */
+
+
+router.post('/api/user/upload', async (req, res) => {
+  try {
+        await db.uploadFile(req.body.filename, req.body.filesize, req.body.file, req.session.userId)
+        res.send({
+        success: true
+      })
+  } catch (e) {
+      res.send({
+          success: false,
+          message: e
+      })
   }
 })
 

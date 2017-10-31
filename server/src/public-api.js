@@ -193,6 +193,7 @@ router.post('/api/verify', async (req, res) => {
   }
 })
 
+
 /**
  * @api {get} /api/authenticated Check if a client is authenticated
  * @apiName Authenticated
