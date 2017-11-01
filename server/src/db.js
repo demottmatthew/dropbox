@@ -312,4 +312,48 @@ pool.uploadFile = (filename, filesize, file, uid) => {
   })
 }
 
+const FILES_Q = 'SELECT FILENAME, FILESIZE, FILEDATA FROM FILES LIMIT ?,?'
+pool.getFiles = (page, filesPerPage) => {
+    return new Promise(async (resolve, reject) => {
+        if (!filesPerPage || !page) {
+        reject(new Error('Missing required field'))
+    }
+
+    try {
+        const startfile = ((page - 1) * filesPerPage)
+        const endfile = (page * filesPerPage)
+        const results = await pool.query(FILES_Q, [startfile, endfile ])
+        const filesarray = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                const file = {
+                    filename: results[i].FILENAME,
+                    filesize: results[i].FILESIZE,
+                    file: results[i].FILEDATA
+                }
+                filesarray[i] = file
+            }
+            resolve(filesarray)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        console.log(e)
+        reject(e)
+    }
+})
+}
+
+const NUMFILES_Q = 'SELECT FILENAME, FILESIZE, FILEDATA FROM FILES'
+pool.getNumFiles = user=> {
+    return new Promise(async (resolve, reject) => {
+    try {
+        const results = await pool.query(NUMFILES_Q, [])
+        resolve(results.length)
+    } catch (e) {
+        reject(e)
+    }
+})
+}
+
 module.exports = pool

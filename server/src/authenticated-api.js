@@ -695,4 +695,27 @@ router.post('/api/user/upload', async (req, res) => {
   }
 })
 
+router.get('/api/user/getfiles', async (req, res) => {
+    if (req.query.page === undefined) {
+    req.query.page = 1
+}
+if (req.query.filesPerPage === undefined) {
+    req.query.filesPerPage = 10
+}
+try {
+    res.send({
+            success: true,
+            page: req.query.page,
+            filesPerPage: req.query.filesPerPage,
+            totalFiles: await db.getNumFiles(req.query.page),
+            files: await db.getFiles(req.query.page, req.query.filesPerPage)
+})
+} catch (e) {
+    res.send({
+        success: false,
+        message: e
+    })
+}
+})
+
 module.exports = router

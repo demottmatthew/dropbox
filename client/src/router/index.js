@@ -12,7 +12,6 @@ import ChangeEmail from '@/components/ChangeEmail'
 import ResetPassword from '@/components/RecoverPassword'
 import Interests from '@/components/Interests'
 import WelcomePage from '@/components/WelcomePage'
-import Channel from '@/components/Channel'
 import UploadFiles from '@/components/UploadFiles'
 
 // var store = require('../Vuex/states')
@@ -111,12 +110,6 @@ const router = new Router({
           path: '/',
           name: 'WelcomeScreen',
           component: WelcomePage
-        },
-        {
-          path: '/channel/:channelId',
-          name: 'Channel',
-          props: true,
-          component: Channel
         },
         {
           path: '/user/:userId',
