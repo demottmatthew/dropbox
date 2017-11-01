@@ -1,12 +1,18 @@
 <template>
   <div v-if="item || itemID" class="voting-item" v-bind:class="{ 'small': this.displayMode }">
     <div class="box">
-      <p class="has-text-left is-pulled-left">
-       file name: {{ itemName ? itemName : item.name}}
-      </p>
-      <hr style="margin: 20px -10px">
-      <div class="content has-text-left" v-show="!this.displayMode">
-        file size: {{ itemFile ? itemFile : item.size  }}
+      <div :class="[this.displayMode ? 'subtitle is-5':'title is-7']">
+        <p class="has-text-left is-pulled-left">
+          <a href="javascript:void(0);" @click="download(item)">file name: {{ itemName ? itemName : item.name}}</a>
+        </p>
+        <br>
+        <hr style="margin: 20px -10px">
+        <p class="content has-text-left" v-show="!this.displayMode">
+          <a href="javascript:void(0);" @click="download(item)">file size: {{ itemSize ? itemSize : item.size  }}</a>
+        </p>
+        <p class="content has-text-left" v-show="!this.displayMode">
+          <a href="javascript:void(0);" @click="download(item)">file: {{ itemFile ? itemFile : item.file  }}</a>
+        </p>
       </div>
     </div>
   </div>
@@ -28,6 +34,13 @@
     computed: {
       CurrentItem: () => {
         return this.item
+      }
+    },
+    methods: {
+      download (item) {
+        console.log('download')
+        // let blob = new Blob(item.file, { type: 'application/pdf' } )
+        // download(item.file, item.name)
       }
     }
   }

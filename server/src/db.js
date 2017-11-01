@@ -302,16 +302,21 @@ pool.uploadFile = (filename, filesize, file, uid) => {
         reject(new Error('Missing a required field'))
         return
     }
-
+    console.log("hi");
     try {
+      console.log(filename);
+      console.log(filesize);
+      console.log(file);
         await pool.query(UPLOAD_Q, [filename, filesize, file, moment().format('YYYY-MM-DD HH:mm:ss'), uid])
         resolve()
     } catch (e) {
+      console.error(e);
         reject(e)
     }
   })
 }
 
+// const FILES_Q = 'SELECT FILENAME, FILESIZE,  CONVERT(FILEDATA USING utf8) AS FDATA FROM FILES LIMIT ?,?'
 const FILES_Q = 'SELECT FILENAME, FILESIZE, FILEDATA FROM FILES LIMIT ?,?'
 pool.getFiles = (page, filesPerPage) => {
     return new Promise(async (resolve, reject) => {

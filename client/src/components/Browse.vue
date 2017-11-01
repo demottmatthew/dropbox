@@ -5,10 +5,11 @@
         <a class="button is-primary"  @click="displayFiles(1)">
           Load Files
         </a>
+        <div class="container">
         <section class="section">
           <div v-if="files.length > 0">
             <div class="columns is-multiline">
-              <div class="column is-one-quarter is-half-tablet is-12-mobile" v-for="file in files" :key="file.name">
+              <div class="column is-one-quarter is-4 is-half-tablet is-12-mobile" v-for="file in files" :key="file.name">
                 <File :item="file" />
               </div>
             </div>
@@ -36,6 +37,7 @@
             </article>
           </div>
         </section>
+        </div>
       </div>
       <div class="column">
         <router-view></router-view>
@@ -64,11 +66,13 @@
         // if (page === this.currentPage) return
         this.currentPage = page
         var newFiles = []
+        // var reader = new FileReader()
         this.$http.get(`/api/user/getfiles?filesPerPage=${this.filesPerPage}&page=${page}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {
               response.body.files.forEach(function (el) {
+                console.log(el.file)
                 newFiles.push(new Classes.FileItem(el.filename, el.filesize, el.file))
               }, this)
               this.files = newFiles

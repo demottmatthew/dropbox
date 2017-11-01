@@ -35,6 +35,7 @@
     methods: {
       addedFile (file) {
         console.log(file)
+        // console.log(body.file)
         const body = {
           file: btoa(file),
           filename: file.name,
@@ -45,7 +46,8 @@
           .then(response => {
             if (response.data.success) {
               console.log('success')
-              file.status = 'success'
+              console.log(response.data.file)
+              file.status = 'added'
             }
           }, response => {
             console.log('fail')
