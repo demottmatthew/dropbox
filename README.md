@@ -27,8 +27,8 @@ Create a text file named '.env' in the 'server' directory with contents:
 ```
 DB_USER=root
 DB_PASS=''
-DB_NAME=BRAND_CENTRAL
-TEST_DB_NAME=BRAND_CENTRAL_TESTING
+DB_NAME=DROPBOX
+TEST_DB_NAME=DROPBOX_TESTING
 SESSION_DB=SESSION_STORE
 URL='localhost:8080'
 ```
