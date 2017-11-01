@@ -34,15 +34,15 @@ export namespace Classes {
     }
   }
 
-  export class Item {
-    public ProductName : string;
-    public ItemDescription : string;
-    public ImmageURL : string;
+  export class FileItem {
+    public name : string;
+    public size : string;
+    public file : string;
 
-    constructor(productName: string = "", itemDescription: string = "", immageURL: string) {
-      this.ProductName = productName;
-      this.ItemDescription = itemDescription;
-      this.ImmageURL = immageURL;
+    constructor(name: string = "", size: string = "", file: string) {
+      this.name = name;
+      this.size = size;
+      this.file = file;
     }
   }
 }

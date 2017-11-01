@@ -35,15 +35,16 @@ var Classes;
     return PasswordVerification
   }())
   Classes.PasswordVerification = PasswordVerification
-  var Item = (function () {
-    function Item (productName, itemDescription, immageURL) {
-      if (productName === void 0) { productName = '' }
-      if (itemDescription === void 0) { itemDescription = '' }
-      this.ProductName = productName
-      this.ItemDescription = itemDescription
-      this.ImmageURL = immageURL
+  var FileItem = (function () {
+    function FileItem (name, size, file) {
+      if (name === void 0) { name = '' }
+      if (size === void 0) { size = '' }
+      if (file === void 0) { file = '' }
+      this.name = name
+      this.size = size
+      this.file = file
     }
-    return Item
+    return FileItem
   }())
-  Classes.Item = Item
+  Classes.FileItem = FileItem
 })(Classes = exports.Classes || (exports.Classes = {}))
