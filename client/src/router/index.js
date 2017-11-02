@@ -10,7 +10,6 @@ import ChangePassword from '@/components/ChangePassword'
 import ProfileHome from '@/components/ProfileHome'
 import ChangeEmail from '@/components/ChangeEmail'
 import ResetPassword from '@/components/RecoverPassword'
-import Interests from '@/components/Interests'
 import WelcomePage from '@/components/WelcomePage'
 import UploadFiles from '@/components/UploadFiles'
 
@@ -82,15 +81,6 @@ const router = new Router({
       name: 'Verify',
       component: Verify,
       props: true,
-      meta: {
-        hideNav: true,
-        requireAuth: false
-      }
-    },
-    {
-      path: '/interests',
-      name: 'Interests',
-      component: Interests,
       meta: {
         hideNav: true,
         requireAuth: false
