@@ -1,7 +1,7 @@
 ## Build and Run
 
 ### Setup MySQL Database and Tables
-In the 'server' directory:
+In the 'db' directory:
 ```
 npm run init-db
 ```
@@ -23,7 +23,7 @@ npm install
 ```
 
 ### Create environment file
-Create a text file named '.env' in the 'server' directory with contents:
+Create a text file named '.env' in the 'db' directory with contents:
 ```
 DB_USER=root
 DB_PASS=''
