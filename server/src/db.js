@@ -302,16 +302,21 @@ pool.uploadFile = (filename, filesize, file, uid) => {
         reject(new Error('Missing a required field'))
         return
     }
-
+    console.log("hi");
     try {
+      console.log(filename);
+      console.log(filesize);
+      console.log(file);
         await pool.query(UPLOAD_Q, [filename, filesize, file, moment().format('YYYY-MM-DD HH:mm:ss'), uid])
         resolve()
     } catch (e) {
+      console.error(e);
         reject(e)
     }
   })
 }
 
+// const FILES_Q = 'SELECT FILENAME, FILESIZE,  CONVERT(FILEDATA USING utf8) AS FDATA FROM FILES LIMIT ?,?'
 const FILES_Q = 'SELECT FILENAME, FILESIZE, FILEDATA FROM FILES LIMIT ?,?'
 pool.getFiles = (page, filesPerPage) => {
     return new Promise(async (resolve, reject) => {
@@ -324,13 +329,22 @@ pool.getFiles = (page, filesPerPage) => {
         const endfile = (page * filesPerPage)
         const results = await pool.query(FILES_Q, [startfile, endfile ])
         const filesarray = []
+        // var btoa = require('btoa')
         if (results.length > 0) {
             for (let i = 0; i < results.length; i++) {
                 const file = {
                     filename: results[i].FILENAME,
                     filesize: results[i].FILESIZE,
-                    file: results[i].FILEDATA
+                    // const blob = new Blob(atob(el.file), { type: `application/${nameArr[nameArr.length - 1]}` })
+                    // file: Buffer(results[i].FILEDATA, 'base64').toString('base64')
+                    // file: Buffer(new Blob(results[i].FILEDATA, { type: `application/${nameArr[nameArr.length - 1]}` }), 'base64').toString('base64')
+                    // file: results[i].FILEDATA
+                    file: Buffer(results[i].FILEDATA, 'base64').toString('base64')
                 }
+                // const test = Buffer(file.file, 'base64').toString('base64')
+                const test = Buffer(file.file, 'base64').toString('base64')
+                console.log(test);
+                console.log(Buffer.from(test, 'base64'));
                 filesarray[i] = file
             }
             resolve(filesarray)

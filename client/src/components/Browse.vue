@@ -5,10 +5,11 @@
         <a class="button is-primary"  @click="displayFiles(1)">
           Load Files
         </a>
+        <div class="container">
         <section class="section">
           <div v-if="files.length > 0">
             <div class="columns is-multiline">
-              <div class="column is-one-quarter is-half-tablet is-12-mobile" v-for="file in files" :key="file.name">
+              <div class="column is-one-quarter is-4 is-half-tablet is-12-mobile" v-for="file in files" :key="file.name">
                 <File :item="file" />
               </div>
             </div>
@@ -36,6 +37,7 @@
             </article>
           </div>
         </section>
+        </div>
       </div>
       <div class="column">
         <router-view></router-view>
@@ -64,12 +66,26 @@
         // if (page === this.currentPage) return
         this.currentPage = page
         var newFiles = []
+        // var reader = new FileReader()
+        // var buffer = new Buffer(8)
+        // const fs = require('fs')
         this.$http.get(`/api/user/getfiles?filesPerPage=${this.filesPerPage}&page=${page}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {
               response.body.files.forEach(function (el) {
-                newFiles.push(new Classes.FileItem(el.filename, el.filesize, el.file))
+                const nameArr = el.filename.split('.')
+                console.log(el.file)
+                console.log(Buffer.from(el.file, 'base64'))
+                // console.log(atob(el.file).data)
+                const blob = new Blob(Buffer.from(el.file, 'base64'), { type: `application/${nameArr[nameArr.length - 1]}` })
+                // console.log(atob(el.file))
+                console.log(blob)
+                newFiles.push(new Classes.FileItem(el.filename, el.filesize, Buffer.from(el.file, 'base64')))
+                // const link = document.createElement('a')
+                // link.href = window.URL.createObjectURL(blob)
+                // link.download = el.filename
+                // link.click()
               }, this)
               this.files = newFiles
               this.totalFiles = response.body.totalFiles
