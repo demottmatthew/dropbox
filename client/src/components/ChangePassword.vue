@@ -59,11 +59,11 @@
         if (this.errors.any()) {
           return
         }
-        const passwordVerificationBody = {
+        const body = {
           password: this.passwordVerification.CurrentPassword
         }
         // TODO: We should combine these two requests into a single request.
-        this.$http.post('/api/verify/password', passwordVerificationBody)
+        this.$http.post('/api/verify/password', body)
           .then(response => {
             if (response.data.success) {
               this.user.Password = this.passwordVerification.NewPassword
@@ -77,9 +77,11 @@
                 })
               this.$router.go(-1)
             } else {
+              console.log(response.data)
               this.failureMessage = response.data.message
             }
           }, response => { // Failure
+            console.log(response.data)
             this.failureMessage = response.data.message
           })
       }

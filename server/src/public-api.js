@@ -130,7 +130,7 @@ router.post('/api/password/reset', async (req, res) => {
     } else {
       const token = await db.generatePasswordResetToken(req.body.email)
       const resetEmail = {
-        from: '"Brand Central Station" <BrandCentralStation@firemail.cc>', // sender address
+        from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
         to: req.body.email,
         subject: 'Reset Password ✔', // Subject line
         text: 'Hello, to reset your password, please click the following link:\n' // plain text body
@@ -242,32 +242,6 @@ router.get('/api/authenticated', async (req, res) => {
     })
   } catch (e) {
     if (e) res.status(404).send('Something went wrong')
-  }
-})
-
-/**
- * @api {get} /api/channels/onboard Get onboarding channels
- * @apiName Authenticated
- * @apiGroup Util
- * @apiDescription Returns a collection of tags to present to the user during
- * the onboarding process.
- *
- * @apiSuccess {Boolean}  success  true
- * @apiSuccess {Number[]} channels Array of sixteen tags
- * @apiSuccess {Boolean}  success  false
- * @apiError   {String}   message  Error message
- */
-router.get('/api/channels/onboard', async (req, res) => {
-  try {
-    res.send({
-      success: true,
-      channels: await db.getOnboardChannels()
-    })
-  } catch (e) {
-    res.send({
-      success: false,
-      message: e.message
-    })
   }
 })
 

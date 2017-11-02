@@ -45,21 +45,31 @@
         if (this.errors.any()) {
           return
         }
-        const emailModificationBody = {
+        const body = {
           email: this.email,
           password: this.password
         }
-
-        this.$http.put(`/api/user/${this.user.Id}/email`, emailModificationBody)
+        this.$http.post('/api/verify/password', body)
           .then(response => {
-            if (response.body.success) {
-              this.user.Email = emailModificationBody.NewEmail
-              this.$router.push({name: 'EditProfile'})
+            if (response.data.success) {
+              this.$http.put(`/api/user/${this.user.Id}/email`, body)
+                .then(response => {
+                  if (response.body.success) {
+                    this.user.Email = body.email
+                    this.$router.push({name: 'EditProfile'})
+                  } else {
+                    console.log(response)
+                    this.failureMessage = response.data.message
+                  }
+                }, response => { // Failure
+                  this.failureMessage = response.data.message
+                })
             } else {
-              console.log(response)
+              console.log(response.data)
               this.failureMessage = response.data.message
             }
           }, response => { // Failure
+            console.log(response.data)
             this.failureMessage = response.data.message
           })
       }
