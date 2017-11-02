@@ -20,22 +20,24 @@ const pool = mysql.createPool({
 })
 
 const GETPASSHASH_Q = 'SELECT USER_PASS_HASH FROM USER WHERE USER_ID = ?'
-const verifyPassword = (user, pass) => {
+pool.verifyPassword = (user, pass) => {
   return new Promise(async (resolve, reject) => {
+    if (!user || !pass) {
+        reject(new Error('Missing a required field'))
+        return
+    }
     try {
       const results = await pool.query(GETPASSHASH_Q, [ user ])
 
       if (results.length === 0) {
         resolve(false)
       }
-
       const res = await bcrypt.compare(pass, results[0].USER_PASS_HASH)
-
       if (res) {
-        // successful login
+        // successful
         resolve(true)
       } else {
-        // login failure
+        // failure
         resolve(false)
       }
     } catch (e) {
@@ -110,7 +112,8 @@ pool.checkNewEmail = (id, info) => {
 
     try {
       const existingEmails = await pool.query(DUPCHECKEMAIL_Q, [ info.email ])
-      const passwordCheck = await verifyPassword(id, info.password)
+      // const passwordCheck = await verifyPassword(id, info.password)
+        const passwordCheck = true
       if (!passwordCheck) {
         reject(new Error('Invalid password'))
       } else if (existingEmails.length > 0) {
@@ -302,11 +305,7 @@ pool.uploadFile = (filename, filesize, file, uid) => {
         reject(new Error('Missing a required field'))
         return
     }
-    console.log("hi");
     try {
-      console.log(filename);
-      console.log(filesize);
-      console.log(file);
         await pool.query(UPLOAD_Q, [filename, filesize, file, moment().format('YYYY-MM-DD HH:mm:ss'), uid])
         resolve()
     } catch (e) {

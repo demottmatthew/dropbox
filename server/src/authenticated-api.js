@@ -7,13 +7,13 @@ const router = require('express').Router()
 const db = require('./db')
 const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
-  host: 'mail.cock.li',
-  port: 465,
-  secure: true, // true for 465, false for other ports
-  auth: {
-    user: 'BrandCentralStation@firemail.cc', // generated ethereal user
-    pass: 'brandcentral' // generated ethereal password
-  }
+    host: 'mail.cock.li',
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+        user: 'csi3660dropbox@firemail.cc', // generated ethereal user
+        pass: 'CSI3660dropbox' // generated ethereal password
+    }
 })
 
 /**
@@ -131,17 +131,17 @@ router.put('/api/user/:id/email', async (req, res) => {
   try {
     const results = await db.checkNewEmail(req.session.userId, req.body)
     const OldEmail = {
-      from: '"Brand Central Station" <BrandCentralStation@firemail.cc>', // sender address
+      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
       to: results.email,
       subject: 'Email Change Notification', // Subject line
       text: 'Hello, we noticed that your email has been changed on your account. Please contact us if this was not you.' // plain text body
     }
 
     const NewVerifyEmail = {
-      from: '"Brand Central Station" <BrandCentralStation@firemail.cc>', // sender address
+      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
       to: req.body.email,
       subject: 'Email Verification', // Subject line
-      text: `Hello, please click this link to verify your new email: http://localhost:8080/verify?token=${results.token}\n` // plain text body
+      text: `Hello, please click this link to verify your new email: http://${process.env.URL}/verify?token=${results.token}\n` // plain text body
     }
 
     transporter.sendMail(OldEmail, (error, info) => {
@@ -208,6 +208,21 @@ try {
         message: e
     })
 }
+})
+
+router.post('/api/verify/password', async (req, res) => {
+    try {
+        const results = await db.verifyPassword(req.session.userId, req.body.password)
+        res.send({
+            success: true
+      })
+    } catch (e) {
+      console.log(e)
+      res.send({
+          success: false,
+          message: e
+      })
+    }
 })
 
 module.exports = router
