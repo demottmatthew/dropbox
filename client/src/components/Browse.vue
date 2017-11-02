@@ -67,13 +67,25 @@
         this.currentPage = page
         var newFiles = []
         // var reader = new FileReader()
+        // var buffer = new Buffer(8)
+        // const fs = require('fs')
         this.$http.get(`/api/user/getfiles?filesPerPage=${this.filesPerPage}&page=${page}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {
               response.body.files.forEach(function (el) {
+                const nameArr = el.filename.split('.')
                 console.log(el.file)
-                newFiles.push(new Classes.FileItem(el.filename, el.filesize, el.file))
+                console.log(Buffer.from(el.file, 'base64'))
+                // console.log(atob(el.file).data)
+                const blob = new Blob(Buffer.from(el.file, 'base64'), { type: `application/${nameArr[nameArr.length - 1]}` })
+                // console.log(atob(el.file))
+                console.log(blob)
+                newFiles.push(new Classes.FileItem(el.filename, el.filesize, Buffer.from(el.file, 'base64')))
+                // const link = document.createElement('a')
+                // link.href = window.URL.createObjectURL(blob)
+                // link.download = el.filename
+                // link.click()
               }, this)
               this.files = newFiles
               this.totalFiles = response.body.totalFiles

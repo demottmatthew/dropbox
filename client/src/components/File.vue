@@ -39,8 +39,16 @@
     methods: {
       download (item) {
         console.log('download')
+        const nameArr = item.name.split('.')
+        // new File(blob, item.name,  { type: `application/${nameArr[nameArr.length - 1]}` });
+        const blob = new Blob(item.file, { type: `application/${nameArr[nameArr.length - 1]}` })
+        const f = new File(blob, item.name, { type: `application/${nameArr[nameArr.length - 1]}` })
         // let blob = new Blob(item.file, { type: 'application/pdf' } )
         // download(item.file, item.name)
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(f)
+        link.download = item.name
+        link.click()
       }
     }
   }
