@@ -1,5 +1,5 @@
 <template>
-  <vue-clip :options="options" :on-added-file="addedFile">
+  <vue-clip :options="options">
         <template slot="clip-uploader-action">
           <div>
             <div class="dz-message"><h2> Click or Drag and Drop files here upload </h2></div>
@@ -25,10 +25,10 @@
     data: function () {
       return {
         options: {
-          url: '/upload',
+          url: '/api/user/upload',
           paramName: 'file'
-        },
-        files: []
+        }
+        // files: []
       }
     },
 
@@ -37,7 +37,7 @@
         console.log(file)
         // console.log(body.file)
         const body = {
-          file: btoa(file),
+          file: new Buffer(file).toString('base64'),
           filename: file.name,
           filesize: file.size
         }

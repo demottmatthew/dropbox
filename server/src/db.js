@@ -300,6 +300,7 @@ pool.generatePasswordResetToken = email => {
 const UPLOAD_Q = 'INSERT INTO FILES (FILENAME, FILESIZE, FILEDATA, TIME_SUBMITTED, USER_ID) VALUES(?, ?, ?, ?, ?)'
 
 pool.uploadFile = (filename, filesize, file, uid) => {
+  console.log(file)
     return new Promise(async (resolve, reject) => {
         if (!filename || !filesize || !file || !uid) {
         reject(new Error('Missing a required field'))
@@ -338,9 +339,11 @@ pool.getFiles = (page, filesPerPage) => {
                     // file: Buffer(results[i].FILEDATA, 'base64').toString('base64')
                     // file: Buffer(new Blob(results[i].FILEDATA, { type: `application/${nameArr[nameArr.length - 1]}` }), 'base64').toString('base64')
                     // file: results[i].FILEDATA
-                    file: Buffer(results[i].FILEDATA, 'base64').toString('base64')
+                    // file: Buffer(results[i].FILEDATA, 'base64').toString('base64')
+                    file: Buffer(results[i].FILEDATA)
                 }
                 // const test = Buffer(file.file, 'base64').toString('base64')
+                console.log(file)
                 const test = Buffer(file.file, 'base64').toString('base64')
                 console.log(test);
                 console.log(Buffer.from(test, 'base64'));

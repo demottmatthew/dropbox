@@ -172,7 +172,10 @@ router.put('/api/user/:id/email', async (req, res) => {
 
 router.post('/api/user/upload', async (req, res) => {
   try {
-        req.body.file = Buffer.from(req.body.file, 'base64').toString()
+        // const file = req.params.file('file')
+        // console.log('hi')
+        console.log(req)
+        // req.body.file = Buffer.from(req.body.file, 'base64')
         const results = await db.uploadFile(req.body.filename, req.body.filesize, req.body.file, req.session.userId)
         res.send({
         success: true,
