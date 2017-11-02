@@ -170,16 +170,18 @@ router.put('/api/user/:id/email', async (req, res) => {
 })
 
 
-router.post('/api/user/upload', async (req, res) => {
+router.post('/api/user/upload/:body', async (req, res) => {
   try {
         // const file = req.params.file('file')
         // console.log('hi')
-        console.log(req)
+        // console.log(req.body.file)
         // req.body.file = Buffer.from(req.body.file, 'base64')
-        const results = await db.uploadFile(req.body.filename, req.body.filesize, req.body.file, req.session.userId)
+        // console.log(req.query.file.name)
+        const formData = new FormData(req.params.body)
+        console.log(formData.get('name'))
+        const results = await db.uploadFile(req.body.filename, req.body.filesize, req.query.file, req.session.userId)
         res.send({
-        success: true,
-        file: req.body.file
+        success: true
       })
   } catch (e) {
       console.log(e)

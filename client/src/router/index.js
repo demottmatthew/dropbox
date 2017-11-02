@@ -12,6 +12,7 @@ import ChangeEmail from '@/components/ChangeEmail'
 import ResetPassword from '@/components/RecoverPassword'
 import WelcomePage from '@/components/WelcomePage'
 import UploadFiles from '@/components/UploadFiles'
+import Upload from '@/components/Upload'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -87,9 +88,14 @@ const router = new Router({
       }
     },
     {
-      path: '/upload',
+      path: '/upload/files',
       name: 'UploadFiles',
       component: UploadFiles
+    },
+    {
+      path: '/upload',
+      name: 'Upload',
+      component: Upload
     },
     {
       path: '/',

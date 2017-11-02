@@ -7,7 +7,7 @@
       <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
         Files
       </router-link>
-      <router-link class="navbar-item" :to="{ name: 'UploadFiles' }">
+      <router-link class="navbar-item" :to="{ name: 'Upload' }">
         Upload
       </router-link>
     </div>

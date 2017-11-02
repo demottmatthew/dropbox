@@ -25,6 +25,7 @@
     "body-parser": "^1.17.1",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "connect-busboy": "0.0.2",
     "crypt": "0.0.2",
     "crypto-promise": "^2.0.0",
     "dotenv": "^4.0.0",

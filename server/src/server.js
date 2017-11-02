@@ -50,6 +50,7 @@ io.on('connection', (sock, test) => {
 
 app.use(require('body-parser').json())
 app.use(require('body-parser').urlencoded({extended:false}))
+// app.use(require('connect-busboy'))
 app.use(require('./public-api'))
 app.use((req, res, next) => {
   if (!req.session || !req.session.id) {
