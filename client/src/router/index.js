@@ -14,6 +14,7 @@ import WelcomePage from '@/components/WelcomePage'
 import UploadFiles from '@/components/UploadFiles'
 import Appointment from '@/components/Appointment'
 import Calendar from '@/components/Calendar'
+import Files from '@/components/Files'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -102,6 +103,11 @@ const router = new Router({
       path: '/calendar',
       name: 'Calendar',
       component: Calendar
+    },
+    {
+      path: '/files',
+      name: 'Files',
+      component: Files
     },
     {
       path: '/',
