@@ -402,11 +402,33 @@ pool.getApps = (page, appsPerPage) => {
         const appsarray = []
         if (results.length > 0) {
             for (let i = 0; i < results.length; i++) {
+                var date = results[i].ADATE
+                date = date.substring(5, 7) + '-' + date.substring(8, 10) + '-' + date.substring(0, 4)
+                var time = results[i].ATIME
+                var hours = parseInt(time.substring(0,2))
+                var mins = parseInt(time.substring(3,6))
+                var convertedHours = 0
+                var AM_PM = ' AM'
+                if (hours >= 13 && hours < 24) {
+                    convertedHours = hours - 12
+                    AM_PM = ' PM'
+                    time = convertedHours.toString() + ':' + mins.toString() + AM_PM
+                } else if (hours === 12) {
+                    AM_PM = ' PM'
+                    time = time + AM_PM
+                } else if (hours >= 24) {
+                    console.log('test')
+                    convertedHours = hours - 12
+                    AM_PM = ' AM'
+                    time = convertedHours.toString() + ':' + mins.toString() + AM_PM
+                } else {
+                    time = time + AM_PM
+                }
                 const app = {
                     title: results[i].TITLE,
                     description: results[i].DESCRIPTION,
-                    date: results[i].ADATE,
-                    time: results[i].ATIME,
+                    date: date,
+                    time: time,
                     fname: results[i].USER_FNAME,
                     lname: results[i].USER_LNAME
                 }

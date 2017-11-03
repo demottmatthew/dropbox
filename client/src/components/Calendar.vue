@@ -43,7 +43,7 @@
       return {
         apps: [],
         currentPage: 1,
-        appsPerPage: 12,
+        appsPerPage: 6,
         totalApps: 0
       }
     },
