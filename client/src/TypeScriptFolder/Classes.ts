@@ -45,4 +45,23 @@ export namespace Classes {
       this.file = file;
     }
   }
+  export class AppointmentItem {
+    public title : string;
+    public description : string;
+    public starttime : string;
+    public endtime : string;
+    public date : string;
+    public fname : string;
+    public lname : string;
+
+    constructor(title: string = "", description: string = "", date: string, starttime: string, endtime: string, fname: string, lname: string) {
+      this.title = title;
+      this.description = description;
+      this.starttime = starttime;
+      this.endtime = endtime;
+      this.date = date
+      this.fname = fname;
+      this.lname = lname;
+    }
+  }
 }

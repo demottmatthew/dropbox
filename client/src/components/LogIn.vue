@@ -5,7 +5,7 @@
         <div class="columns is-vcentered">
           <div class="column is-4 is-offset-4">
             <h4 class="title has-text-centered is-4">
-              <img src="../assets/download_arrow.jpg" style="max-width: 20%">
+              <img src="../assets/appointment.jpg" style="max-width: 20%">
             </h4>
             <div class="box">
               <h4 class="title has-text-centered is-4">Login</h4>
@@ -83,7 +83,7 @@
                 this.user.LastName = response.data.lastName
                 this.user.Email = response.data.email
                 this.$store.commit('setUser', this.user)
-                this.$router.push({ name: 'Browse' })
+                this.$router.push({ name: 'Appointment' })
               } else {
                 this.failureMessage = response.data.message
               }

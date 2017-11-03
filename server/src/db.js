@@ -369,4 +369,111 @@ pool.getNumFiles = user=> {
 })
 }
 
+
+const ADDAPPOINTMENT_Q = 'INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_ID) VALUES(?, ?, ?, ?, ?, ?)'
+
+pool.addAppointment = (title, desc, date, starttime, endtime, uid) => {
+    return new Promise(async (resolve, reject) => {
+        if (!title || !desc || !date || !starttime || !endtime || !uid) {
+        reject(new Error('Missing a required field'))
+        return
+    }
+    try {
+        await pool.query(ADDAPPOINTMENT_Q, [title, desc, date, starttime, endtime, uid])
+        resolve()
+    } catch (e) {
+        console.error(e);
+        reject(e)
+    }
+})
+}
+
+const APPS_Q = 'SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?'
+pool.getApps = (page, appsPerPage) => {
+    return new Promise(async (resolve, reject) => {
+        if (!appsPerPage || !page) {
+        reject(new Error('Missing required field'))
+    }
+
+    try {
+        const start = ((page - 1) * appsPerPage)
+        const end = (page * appsPerPage)
+        const results = await pool.query(APPS_Q, [start, end ])
+        const appsarray = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                var date = results[i].ADATE
+                date = date.substring(5, 7) + '-' + date.substring(8, 10) + '-' + date.substring(0, 4)
+                var starttime = results[i].ASTARTTIME
+                var endtime = results[i].AENDTIME
+                var starthours = parseInt(starttime.substring(0,2))
+                var startmins = starttime.substring(3,6)
+                var endhours = parseInt(endtime.substring(0,2))
+                var endmins = endtime.substring(3,6)
+                var convertedstartHours = 0
+                var convertedendHours = 0
+                var AM_PM = ' AM'
+                if (starthours >= 13 && starthours < 24) {
+                    convertedstartHours = starthours - 12
+                    AM_PM = ' PM'
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                } else if (starthours === 12) {
+                    AM_PM = ' PM'
+                    starttime = starttime + AM_PM
+                } else if (starthours >= 24) {
+                    convertedstartHours = starthours - 12
+                    AM_PM = ' AM'
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                } else {
+                    starttime = starttime + AM_PM
+                }
+                AM_PM = ' AM'
+                if (endhours >= 13 && endhours < 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' PM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else if (endhours === 12) {
+                    AM_PM = ' PM'
+                    endtime = endtime + AM_PM
+                } else if (endhours >= 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' AM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else {
+                    endtime = endtime + AM_PM
+                }
+                const app = {
+                    title: results[i].TITLE,
+                    description: results[i].DESCRIPTION,
+                    date: date,
+                    starttime: starttime,
+                    endtime: endtime,
+                    fname: results[i].USER_FNAME,
+                    lname: results[i].USER_LNAME
+                }
+                appsarray[i] = app
+            }
+            resolve(appsarray)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        console.log(e)
+        reject(e)
+    }
+})
+}
+
+const NUMAPPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)'
+pool.getNumApps = user=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = await pool.query(NUMAPPS_Q, [])
+        resolve(results.length)
+        } catch (e) {
+                reject(e)
+            }
+        })
+}
+
 module.exports = pool

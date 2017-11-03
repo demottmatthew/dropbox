@@ -47,4 +47,25 @@ var Classes;
     return FileItem
   }())
   Classes.FileItem = FileItem
+
+  var AppointmentItem = (function () {
+    function AppointmentItem (title, description, date, starttime, endtime, fname, lname) {
+      if (title === void 0) { title = '' }
+      if (description === void 0) { description = '' }
+      if (date === void 0) { date = '' }
+      if (starttime === void 0) { starttime = '' }
+      if (endtime === void 0) { endtime = '' }
+      if (fname === void 0) { fname = '' }
+      if (lname === void 0) { lname = '' }
+      this.title = title
+      this.description = description
+      this.date = date
+      this.endtime = endtime
+      this.starttime = starttime
+      this.fname = fname
+      this.lname = lname
+    }
+    return AppointmentItem
+  }())
+  Classes.AppointmentItem = AppointmentItem
 })(Classes = exports.Classes || (exports.Classes = {}))

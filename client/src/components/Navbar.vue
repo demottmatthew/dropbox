@@ -1,14 +1,14 @@
 <template>
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
-        <img src="../assets/download_arrow.jpg">
+      <router-link class="navbar-item" :to="{ name: 'Appointment' }">
+        <img src="../assets/appointment.jpg">
       </router-link>
-      <router-link class="navbar-item" :to="{ name: 'WelcomeScreen' }">
-        Files
+      <router-link class="navbar-item" :to="{ name: 'Appointment' }">
+        Appointment
       </router-link>
-      <router-link class="navbar-item" :to="{ name: 'UploadFiles' }">
-        Upload
+      <router-link class="navbar-item" :to="{ name: 'Calendar' }">
+        Calendar
       </router-link>
     </div>
     <div class="navbar-end">

@@ -68,7 +68,7 @@
         this.$http.post(`/api/verify`, body)
           .then(response => {
             if (response.body.success) {
-              this.$router.push({ name: 'Browse' })
+              this.$router.push({ name: 'Appointment' })
             } else {
               this.failureMessage = response.body.message
             }

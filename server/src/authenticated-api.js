@@ -225,4 +225,43 @@ router.post('/api/verify/password', async (req, res) => {
     }
 })
 
+router.post('/api/add/appointment', async (req, res) => {
+    try {
+        const results = await db.addAppointment(req.body.title, req.body.desc, req.body.date, req.body.starttime, req.body.endtime, req.session.userId)
+        res.send({
+        success: true
+    })
+    } catch (e) {
+        console.log(e)
+        res.send({
+            success: false,
+            message: e
+        })
+    }
+})
+
+router.get('/api/user/getappointments', async (req, res) => {
+    if (req.query.page === undefined) {
+    req.query.page = 1
+}
+if (req.query.appsPerPage === undefined) {
+    req.query.appsPerPage = 10
+}
+    try {
+        res.send({
+            success: true,
+            page: req.query.page,
+            appsPerPage: req.query.appsPerPage,
+            totalApps: await db.getNumApps(req.query.page),
+            apps: await db.getApps(req.query.page, req.query.appsPerPage)
+        })
+    } catch (e) {
+        console.log(e)
+        res.send({
+            success: false,
+            message: e
+        })
+    }
+})
+
 module.exports = router
