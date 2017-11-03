@@ -47,18 +47,21 @@ var Classes;
     return FileItem
   }())
   Classes.FileItem = FileItem
+
   var AppointmentItem = (function () {
-    function AppointmentItem (title, description, date, time, user) {
+    function AppointmentItem (title, description, date, time, fname, lname) {
       if (title === void 0) { title = '' }
       if (description === void 0) { description = '' }
       if (date === void 0) { date = '' }
       if (time === void 0) { time = '' }
-      if (user === void 0) { user = '' }
+      if (fname === void 0) { fname = '' }
+      if (lname === void 0) { lname = '' }
       this.title = title
       this.description = description
       this.date = date
       this.time = time
-      this.user = user
+      this.fname = fname
+      this.lname = lname
     }
     return AppointmentItem
   }())

@@ -9,7 +9,7 @@
           <section class="section">
             <div v-if="apps.length > 0">
               <div class="columns is-multiline">
-                <div class="column is-one-quarter is-4 is-half-tablet is-12-mobile" v-for="app in Apps" :key="app.name">
+                <div class="column is-one-quarter is-4 is-half-tablet is-12-mobile" v-for="app in apps" :key="app.name">
                   <AppointmentItem :item="app" />
                 </div>
               </div>
@@ -48,7 +48,7 @@
       }
     },
     components: {
-      'File': File
+      'AppointmentItem': AppointmentItem
     },
     methods: {
       displayApps (page) {
@@ -58,8 +58,14 @@
           .then(response => {
             console.log(response)
             if (response.data.success) {
-              response.body.files.forEach(function (el) {
-                newApps.push(new Classes.FileItem(el.title, el.desc, el.date, el.time, el.name))
+              response.body.apps.forEach(function (el) {
+                newApps.push(new Classes.AppointmentItem(el.title, el.description, el.date, el.time, el.fname, el.lname))
+                console.log(el.title)
+                console.log(el.description)
+                console.log(el.date)
+                console.log(el.time)
+                console.log(el.fname)
+                console.log(el.lname)
               }, this)
               this.apps = newApps
               this.totalApps = response.body.totalApps
@@ -69,10 +75,10 @@
           })
       },
       previousPage () {
-        this.displayFiles(this.currentPage - 1)
+        this.displayApps(this.currentPage - 1)
       },
       nextPage () {
-        this.displayFiles(this.currentPage + 1)
+        this.displayApps(this.currentPage + 1)
       }
     }
   }

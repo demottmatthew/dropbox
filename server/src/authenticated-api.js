@@ -244,7 +244,7 @@ router.post('/api/add/appointment', async (req, res) => {
     }
 })
 
-router.get('/api/user/getapps', async (req, res) => {
+router.get('/api/user/getappointments', async (req, res) => {
     if (req.query.page === undefined) {
     req.query.page = 1
 }
@@ -255,11 +255,12 @@ if (req.query.appsPerPage === undefined) {
         res.send({
             success: true,
             page: req.query.page,
-            appsPerPage: req.query.filesPerPage,
+            appsPerPage: req.query.appsPerPage,
             totalApps: await db.getNumApps(req.query.page),
-            apps: await db.getApps(req.query.page, req.query.filesPerPage)
+            apps: await db.getApps(req.query.page, req.query.appsPerPage)
         })
     } catch (e) {
+        console.log(e)
         res.send({
             success: false,
             message: e

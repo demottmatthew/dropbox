@@ -50,14 +50,16 @@ export namespace Classes {
     public description : string;
     public time : string;
     public date : string;
-    public user : string;
+    public fname : string;
+    public lname : string;
 
-    constructor(title: string = "", description: string = "", time: string, date: string, user: string) {
+    constructor(title: string = "", description: string = "", date: string, time: string, fname: string, lname: string) {
       this.title = title;
       this.description = description;
       this.time = time;
-      this.date = date;
-      this.user = user;
+      this.date = date
+      this.fname = fname;
+      this.lname = lname;
     }
   }
 }

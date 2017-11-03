@@ -388,8 +388,8 @@ pool.addAppointment = (title, desc, date, time, uid) => {
 })
 }
 
-const APPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) LIMIT ?,?'
-pool.getFiles = (page, appsPerPage) => {
+const APPS_Q = 'SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_TIME, 1, 5) AS ATIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) ORDER BY APP_DATE ASC LIMIT ?,?'
+pool.getApps = (page, appsPerPage) => {
     return new Promise(async (resolve, reject) => {
         if (!appsPerPage || !page) {
         reject(new Error('Missing required field'))
@@ -405,8 +405,8 @@ pool.getFiles = (page, appsPerPage) => {
                 const app = {
                     title: results[i].TITLE,
                     description: results[i].DESCRIPTION,
-                    date: results[i].APP_DATE,
-                    time: results[i].APP_TIME,
+                    date: results[i].ADATE,
+                    time: results[i].ATIME,
                     fname: results[i].USER_FNAME,
                     lname: results[i].USER_LNAME
                 }
