@@ -370,16 +370,16 @@ pool.getNumFiles = user=> {
 }
 
 
-const ADDAPPOINTMENT_Q = 'INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_ID) VALUES(?, ?, ?, ?, ?)'
+const ADDAPPOINTMENT_Q = 'INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_ID) VALUES(?, ?, ?, ?, ?, ?)'
 
-pool.addAppointment = (title, desc, date, time, uid) => {
+pool.addAppointment = (title, desc, date, starttime, endtime, uid) => {
     return new Promise(async (resolve, reject) => {
-        if (!title || !desc || !date || !time || !uid) {
+        if (!title || !desc || !date || !starttime || !endtime || !uid) {
         reject(new Error('Missing a required field'))
         return
     }
     try {
-        await pool.query(ADDAPPOINTMENT_Q, [title, desc, date, time, uid])
+        await pool.query(ADDAPPOINTMENT_Q, [title, desc, date, starttime, endtime, uid])
         resolve()
     } catch (e) {
         console.error(e);
@@ -388,7 +388,7 @@ pool.addAppointment = (title, desc, date, time, uid) => {
 })
 }
 
-const APPS_Q = 'SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_TIME, 1, 5) AS ATIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) ORDER BY APP_DATE ASC LIMIT ?,?'
+const APPS_Q = 'SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?'
 pool.getApps = (page, appsPerPage) => {
     return new Promise(async (resolve, reject) => {
         if (!appsPerPage || !page) {
@@ -404,31 +404,50 @@ pool.getApps = (page, appsPerPage) => {
             for (let i = 0; i < results.length; i++) {
                 var date = results[i].ADATE
                 date = date.substring(5, 7) + '-' + date.substring(8, 10) + '-' + date.substring(0, 4)
-                var time = results[i].ATIME
-                var hours = parseInt(time.substring(0,2))
-                var mins = parseInt(time.substring(3,6))
-                var convertedHours = 0
+                var starttime = results[i].ASTARTTIME
+                var endtime = results[i].AENDTIME
+                var starthours = parseInt(starttime.substring(0,2))
+                var startmins = starttime.substring(3,6)
+                var endhours = parseInt(endtime.substring(0,2))
+                var endmins = endtime.substring(3,6)
+                var convertedstartHours = 0
+                var convertedendHours = 0
                 var AM_PM = ' AM'
-                if (hours >= 13 && hours < 24) {
-                    convertedHours = hours - 12
+                if (starthours >= 13 && starthours < 24) {
+                    convertedstartHours = starthours - 12
                     AM_PM = ' PM'
-                    time = convertedHours.toString() + ':' + mins.toString() + AM_PM
-                } else if (hours === 12) {
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                } else if (starthours === 12) {
                     AM_PM = ' PM'
-                    time = time + AM_PM
-                } else if (hours >= 24) {
-                    console.log('test')
-                    convertedHours = hours - 12
+                    starttime = starttime + AM_PM
+                } else if (starthours >= 24) {
+                    convertedstartHours = starthours - 12
                     AM_PM = ' AM'
-                    time = convertedHours.toString() + ':' + mins.toString() + AM_PM
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
                 } else {
-                    time = time + AM_PM
+                    starttime = starttime + AM_PM
+                }
+                AM_PM = ' AM'
+                if (endhours >= 13 && endhours < 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' PM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else if (endhours === 12) {
+                    AM_PM = ' PM'
+                    endtime = endtime + AM_PM
+                } else if (endhours >= 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' AM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else {
+                    endtime = endtime + AM_PM
                 }
                 const app = {
                     title: results[i].TITLE,
                     description: results[i].DESCRIPTION,
                     date: date,
-                    time: time,
+                    starttime: starttime,
+                    endtime: endtime,
                     fname: results[i].USER_FNAME,
                     lname: results[i].USER_LNAME
                 }
@@ -445,7 +464,7 @@ pool.getApps = (page, appsPerPage) => {
 })
 }
 
-const NUMAPPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)'
+const NUMAPPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)'
 pool.getNumApps = user=> {
     return new Promise(async (resolve, reject) => {
         try {

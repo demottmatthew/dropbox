@@ -39,9 +39,15 @@
                 </div>
               </div>
               <div class="field">
-                <label class="label">Time</label>
+                <label class="label">Start Time</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="time" v-model="time" @keydown.enter="add"/>
+                  <input class="input" type="text" placeholder="start time" v-model="starttime" @keydown.enter="add"/>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">End Time</label>
+                <div class="control">
+                  <input class="input" type="text" placeholder="end time" v-model="endtime" @keydown.enter="add"/>
                 </div>
               </div>
               <hr>
@@ -64,44 +70,110 @@
         title: '',
         description: '',
         date: '',
-        time: '',
+        starttime: '',
+        endtime: '',
         failureMessage: '',
         successMessage: ''
       }
     },
     methods: {
       add () {
+        if (this.title === '') {
+          this.failureMessage = 'Title cannot be blank'
+          return
+        }
+        if (this.description === '') {
+          this.failureMessage = 'Description cannot be blank'
+          return
+        }
+        if (this.date === '') {
+          this.failureMessage = 'Date cannot be blank'
+          return
+        }
+        if (this.starttime === '' || this.starttime.length < 7) {
+          this.failureMessage = 'Start Time is not in the proper format'
+          return
+        }
+        if (this.endtime === '' || this.endtime.length < 7) {
+          this.failureMessage = 'End Time is not in the proper format'
+          return
+        }
         const year = '20' + this.date[this.date.length - 2] + this.date[this.date.length - 1]
         const month = this.date[0] + this.date[1]
         const day = this.date[3] + this.date[4]
-        const end = this.time[this.time.length - 2] + this.time[this.time.length - 1]
+        const startend = this.starttime[this.starttime.length - 2] + this.starttime[this.starttime.length - 1]
+        const endend = this.endtime[this.endtime.length - 2] + this.endtime[this.endtime.length - 1]
         var index = 0
-        var time = ''
-        var hours = 0
-        var minutes = ''
+        var stime = ''
+        var etime = ''
+        var starthours = 0
+        var endhours = 0
+        var startminutes = ''
+        var endminutes = ''
         const seconds = ':00'
-        for (var i = 0; i < this.time.length; i++) {
-          if (this.time[i] === ':') {
+        for (var i = 0; i < this.starttime.length; i++) {
+          if (this.starttime[i] === ':') {
             index = i
           }
         }
         if (index === 1) {
-          hours = this.time[0]
-          minutes = this.time[1] + this.time[2] + this.time[3]
+          starthours = this.starttime[0]
+          startminutes = this.starttime[1] + this.starttime[2] + this.starttime[3]
         } else {
-          hours = this.time[0] + this.time[1]
-          minutes = this.time[2] + this.time[3] + this.time[4]
+          starthours = this.starttime[0] + this.starttime[1]
+          startminutes = this.starttime[2] + this.starttime[3] + this.starttime[4]
         }
-        if (end === 'pm' || end === 'PM') {
-          hours = parseInt(hours) + 12
-        } else if (end === 'am' || end === 'AM') {
+        if (startend === 'pm' || startend === 'PM') {
+          if (parseInt(starthours) === 12) {
+
+          } else {
+            starthours = parseInt(starthours) + 12
+          }
+        } else if ((startend === 'am' || startend === 'AM') && parseInt(starthours) === 12) {
+          starthours = parseInt(starthours) + 12
         }
-        time = hours + minutes + seconds
+        stime = starthours + startminutes + seconds
+        for (i = 0; i < this.endtime.length; i++) {
+          if (this.endtime[i] === ':') {
+            index = i
+          }
+        }
+        if (index === 1) {
+          endhours = this.endtime[0]
+          endminutes = this.endtime[1] + this.endtime[2] + this.endtime[3]
+        } else {
+          endhours = this.endtime[0] + this.endtime[1]
+          endminutes = this.endtime[2] + this.endtime[3] + this.endtime[4]
+        }
+        if (endend === 'pm' || endend === 'PM') {
+          if (parseInt(endhours) === 12) {
+
+          } else {
+            endhours = parseInt(endhours) + 12
+          }
+        } else if ((endend === 'am' || endend === 'AM') && parseInt(endhours) === 12) {
+          endhours = parseInt(endhours) + 12
+        }
+        etime = endhours + endminutes + seconds
+        if (endend === startend) {
+          if (starthours === endhours && startminutes > endminutes) {
+            this.failureMessage = 'Start Time cannot be after End Time'
+            return
+          } else if (starthours === 12) {
+          } else if (starthours > endhours) {
+            this.failureMessage = 'Start Time cannot be after End Time'
+            return
+          }
+        } else if ((endend === 'AM' || endend === 'am') && (startend === 'PM' || startend === 'pm')) {
+          this.failureMessage = 'Start Time cannot be after End Time'
+          return
+        }
         const body = {
           title: this.title,
           desc: this.description,
           date: year + '-' + month + '-' + day,
-          time: time
+          starttime: stime,
+          endtime: etime
         }
         this.$http.post('/api/add/appointment', body)
           .then(response => { // Success

@@ -227,7 +227,7 @@ router.post('/api/verify/password', async (req, res) => {
 
 router.post('/api/add/appointment', async (req, res) => {
     try {
-        const results = await db.addAppointment(req.body.title, req.body.desc, req.body.date, req.body.time, req.session.userId)
+        const results = await db.addAppointment(req.body.title, req.body.desc, req.body.date, req.body.starttime, req.body.endtime, req.session.userId)
         res.send({
         success: true
     })

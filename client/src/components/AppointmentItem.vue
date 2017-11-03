@@ -14,7 +14,10 @@
           Date: {{ itemDate ? itemDate : item.date  }}
         </div>
         <div class="content has-text-left" v-show="!this.displayMode">
-          Time: {{ itemTime ? itemTime : item.time  }}
+          Start Time: {{ itemTime ? itemTime : item.starttime  }}
+        </div>
+        <div class="content has-text-left" v-show="!this.displayMode">
+          End Time: {{ itemTime ? itemTime : item.endtime  }}
         </div>
         <div class="content has-text-left" v-show="!this.displayMode">
           First Name: {{ itemFname ? itemFname : item.fname  }}
