@@ -10,6 +10,12 @@
       <router-link class="navbar-item" :to="{ name: 'UploadFiles' }">
         Upload
       </router-link>
+      <router-link class="navbar-item" :to="{ name: 'Appointment' }">
+        Appointment
+      </router-link>
+      <router-link class="navbar-item" :to="{ name: 'Calendar' }">
+        Calendar
+      </router-link>
     </div>
     <div class="navbar-end">
       <div class="navbar-item has-dropdown is-hoverable">

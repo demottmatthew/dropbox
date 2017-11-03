@@ -369,4 +369,70 @@ pool.getNumFiles = user=> {
 })
 }
 
+
+const ADDAPPOINTMENT_Q = 'INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_ID) VALUES(?, ?, ?, ?, ?)'
+
+pool.addAppointment = (title, desc, date, time, uid) => {
+    return new Promise(async (resolve, reject) => {
+        if (!title || !desc || !date || !time || !uid) {
+        reject(new Error('Missing a required field'))
+        return
+    }
+    try {
+        await pool.query(ADDAPPOINTMENT_Q, [title, desc, date, time, uid])
+        resolve()
+    } catch (e) {
+        console.error(e);
+        reject(e)
+    }
+})
+}
+
+const APPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) LIMIT ?,?'
+pool.getFiles = (page, appsPerPage) => {
+    return new Promise(async (resolve, reject) => {
+        if (!appsPerPage || !page) {
+        reject(new Error('Missing required field'))
+    }
+
+    try {
+        const start = ((page - 1) * appsPerPage)
+        const end = (page * appsPerPage)
+        const results = await pool.query(APPS_Q, [start, end ])
+        const appsarray = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                const app = {
+                    title: results[i].TITLE,
+                    description: results[i].DESCRIPTION,
+                    date: results[i].APP_DATE,
+                    time: results[i].APP_TIME,
+                    fname: results[i].USER_FNAME,
+                    lname: results[i].USER_LNAME
+                }
+                appsarray[i] = app
+            }
+            resolve(appsarray)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        console.log(e)
+        reject(e)
+    }
+})
+}
+
+const NUMAPPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_TIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)'
+pool.getNumApps = user=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = await pool.query(NUMAPPS_Q, [])
+        resolve(results.length)
+        } catch (e) {
+                reject(e)
+            }
+        })
+}
+
 module.exports = pool

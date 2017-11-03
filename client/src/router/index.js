@@ -12,6 +12,8 @@ import ChangeEmail from '@/components/ChangeEmail'
 import ResetPassword from '@/components/RecoverPassword'
 import WelcomePage from '@/components/WelcomePage'
 import UploadFiles from '@/components/UploadFiles'
+import Appointment from '@/components/Appointment'
+import Calendar from '@/components/Calendar'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -90,6 +92,16 @@ const router = new Router({
       path: '/upload',
       name: 'UploadFiles',
       component: UploadFiles
+    },
+    {
+      path: '/appointment',
+      name: 'Appointment',
+      component: Appointment
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: Calendar
     },
     {
       path: '/',
