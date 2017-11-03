@@ -1,11 +1,11 @@
 <template>
   <section class="section">
     <div class="columns">
-      <div class="column is-narrow">
+      <div class="column is-centered">
         <a class="button is-primary"  @click="displayApps(1)">
           Load Appointments
         </a>
-        <div class="container">
+        <div class="container is-vcentered">
           <section class="section">
             <div v-if="apps.length > 0">
               <div class="columns is-multiline">
