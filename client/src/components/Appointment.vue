@@ -22,32 +22,32 @@
               <div class="field">
                 <label class="label">Title</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="title" v-model="title" />
+                  <input class="input" type="text" placeholder="Doctor's Appointment" v-model="title" />
                 </div>
               </div>
               <div class="field">
                 <label class="label">Description</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="description" v-model="description" @keydown.enter="add"/>
+                  <input class="input" type="text" placeholder="Going to get my yearly checkup" v-model="description" @keydown.enter="add"/>
                 </div>
               </div>
               <div class="field">
 
                 <label class="label">Date</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="date" v-model="date" @keydown.enter="add"/>
+                    <input class="input" type="text" placeholder="11-26-17" v-model="date" @keydown.enter="add"/>
                 </div>
               </div>
               <div class="field">
                 <label class="label">Start Time</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="start time" v-model="starttime" @keydown.enter="add"/>
+                  <input class="input" type="text" placeholder="12:30 PM" v-model="starttime" @keydown.enter="add"/>
                 </div>
               </div>
               <div class="field">
                 <label class="label">End Time</label>
                 <div class="control">
-                  <input class="input" type="text" placeholder="end time" v-model="endtime" @keydown.enter="add"/>
+                  <input class="input" type="text" placeholder="2:45 PM" v-model="endtime" @keydown.enter="add"/>
                 </div>
               </div>
               <hr>
