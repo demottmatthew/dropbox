@@ -1,0 +1,20 @@
+[Unit]
+Description=Brand Central Website
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /var/www/dropbox/server/src/server.js
+Restart=always
+User=dropbox
+Group=dropbox
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=DB_USER=root
+Environment=DB_PASS=
+Environment=DB_NAME=DROPBOX
+Environment=TEST_DB_NAME=DROPBOX_TESTING
+Environment=SESSION_DB=SESSION_STORE
+Environment=URL=csi3660.me
+WorkingDirectory=/var/www/dropbox/server/src/
+
+[Install]
+WantedBy=multi-user.target
