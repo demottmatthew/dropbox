@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-        user: 'csi3660dropbox@firemail.cc', // generated ethereal user
+        user: 'csi3660Appointments@firemail.cc', // generated ethereal user
         pass: 'CSI3660dropbox' // generated ethereal password
     }
 })
@@ -80,7 +80,7 @@ router.post('/api/register', async (req, res) => {
     req.session.userId = results.insertId
 
     const registerEmail = {
-      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
+      from: '"CSI 3660 Appointments" <csi3660Appointments@firemail.cc>', // sender address
       to: req.body.email,
       subject: 'Hello ✔', // Subject line
       text: 'Hello, thanks for signing up. Please enter the code:\n' // plain text body
@@ -130,7 +130,7 @@ router.post('/api/password/reset', async (req, res) => {
     } else {
       const token = await db.generatePasswordResetToken(req.body.email)
       const resetEmail = {
-        from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
+        from: '"CSI 3660 Appointments" <csi3660Appointments@firemail.cc>', // sender address
         to: req.body.email,
         subject: 'Reset Password ✔', // Subject line
         text: 'Hello, to reset your password, please click the following link:\n' // plain text body
