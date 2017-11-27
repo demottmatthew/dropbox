@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-        user: 'csi3660dropbox@firemail.cc', // generated ethereal user
+        user: 'csi3660Appointments@firemail.cc', // generated ethereal user
         pass: 'CSI3660dropbox' // generated ethereal password
     }
 })
@@ -131,14 +131,14 @@ router.put('/api/user/:id/email', async (req, res) => {
   try {
     const results = await db.checkNewEmail(req.session.userId, req.body)
     const OldEmail = {
-      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
+      from: '"CSI 3660 Appointments" <csi3660Appointments@firemail.cc>', // sender address
       to: results.email,
       subject: 'Email Change Notification', // Subject line
       text: 'Hello, we noticed that your email has been changed on your account. Please contact us if this was not you.' // plain text body
     }
 
     const NewVerifyEmail = {
-      from: '"CSI 3660 Dropbox" <csi3660dropbox@firemail.cc>', // sender address
+      from: '"CSI 3660 Appointments" <csi3660Appointments@firemail.cc>', // sender address
       to: req.body.email,
       subject: 'Email Verification', // Subject line
       text: `Hello, please click this link to verify your new email: http://${process.env.URL}/verify?token=${results.token}\n` // plain text body
