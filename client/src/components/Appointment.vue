@@ -2,8 +2,8 @@
   <div class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
-        <div class="columns is-vcentered">
-          <div class="column is-8 is-offset-2">
+        <div class="columns is-left">
+          <div class="column is-7 is-offset-1">
             <h4 class="title has-text-centered is-4">
               <img src="../assets/appointment.jpg" style="max-width: 20%">
             </h4>
