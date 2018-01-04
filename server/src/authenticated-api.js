@@ -282,4 +282,81 @@ router.get('/api/user/getappointments', async (req, res) => {
     }
 })
 
+/**
+ * @api {post} api/user/follow/:id Follow a user
+ * @apiName FollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to follow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ * TODO: Rename to POST /api/user/:followee/followers/:follower
+ */
+router.post('/api/user/follow/:id', async (req, res) => {
+    try {
+        await db.followUser(req.session.userId, req.params.id)
+        res.send({
+        success: true
+    })
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
+/**
+ * @api {post} api/user/unfollow/:id Unfollow a user
+ * @apiName UnfollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to unfollow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ * TODO: Rename to DELETE /api/user/:followee/followers/:follower
+ */
+router.post('/api/user/unfollow/:id', async (req, res) => {
+    try {
+        await db.unfollowUser(req.session.userId, req.params.id)
+        res.send({
+        success: true
+    })
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
+/**
+ * @api {get} api/user/unfollow/:id Unfollow a user
+ * @apiName UnfollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to unfollow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ */
+router.get('/api/user/following/:id', async (req, res) => {
+    try {
+        res.send({
+        success: true,
+        following: await db.getFollowing(req.params.id)
+})
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
 module.exports = router
