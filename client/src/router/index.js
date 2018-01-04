@@ -15,6 +15,7 @@ import UploadFiles from '@/components/UploadFiles'
 import Appointment from '@/components/Appointment'
 import Calendar from '@/components/Calendar'
 import Files from '@/components/Files'
+// import FollowingUsers from '@/components/FollowingUsers'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -44,12 +45,6 @@ const router = new Router({
           component: ChangeEmail
         }
       ]
-    },
-    {
-      path: '/profile/:userId',
-      name: 'Profile',
-      props: true,
-      component: Profile
     },
     {
       path: '/login',
@@ -108,6 +103,12 @@ const router = new Router({
       path: '/files',
       name: 'Files',
       component: Files
+    },
+    {
+      path: 'profile/:userId',
+      name: '',
+      props: true,
+      component: Profile
     },
     {
       path: '/',
