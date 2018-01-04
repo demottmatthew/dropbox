@@ -7,6 +7,16 @@
           <h1 class="title is-4">{{ user.FirstName }} {{ user.LastName }}</h1>
           <h1 class="subtitle">@{{ user.UserName }}</h1>
           <div v-if="user.Id != this.$store.state.User.Id">
+            <span v-if="following()">
+              <a class="button is-primary"  @click="unfollow()">
+                Unfollow
+              </a>
+            </span>
+            <span v-else>
+              <a class="button" @click="follow()">
+                Follow
+              </a>
+            </span>
           </div>
           <div v-else>
             <router-link :to="{ name: 'EditProfile' }" class="button">
