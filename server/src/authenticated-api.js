@@ -242,25 +242,43 @@ router.post('/api/add/appointment', async (req, res) => {
 
 router.get('/api/user/getappointments', async (req, res) => {
     if (req.query.page === undefined) {
-    req.query.page = 1
-}
-if (req.query.appsPerPage === undefined) {
-    req.query.appsPerPage = 10
-}
-    try {
-        res.send({
-            success: true,
-            page: req.query.page,
-            appsPerPage: req.query.appsPerPage,
-            totalApps: await db.getNumApps(req.query.page),
-            apps: await db.getApps(req.query.page, req.query.appsPerPage)
+        req.query.page = 1
+    }
+    if (req.query.appsPerPage === undefined) {
+        req.query.appsPerPage = 10
+    }
+    if(req.query.searchText === '') {
+        try {
+            res.send({
+                    success: true,
+                    page: req.query.page,
+                    appsPerPage: req.query.appsPerPage,
+                    totalApps: await db.getNumApps(req.query.page),
+                    apps: await db.getApps(req.query.page, req.query.appsPerPage)
         })
-    } catch (e) {
-        console.log(e)
-        res.send({
-            success: false,
-            message: e
+        } catch (e) {
+            console.log(e)
+            res.send({
+                success: false,
+                message: e
+            })
+        }
+    } else {
+        try {
+            res.send({
+                    success: true,
+                    page: req.query.page,
+                    appsPerPage: req.query.appsPerPage,
+                    totalApps: await db.getNumSearchApps(req.query.searchText),
+                    apps: await db.searchApps(req.query.page, req.query.appsPerPage, req.query.searchText)
         })
+        } catch (e) {
+            console.log(e)
+            res.send({
+                success: false,
+                message: e
+            })
+        }
     }
 })
 

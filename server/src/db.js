@@ -476,4 +476,100 @@ pool.getNumApps = user=> {
         })
 }
 
+const searchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) 
+AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
+(APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
+ASTARTTIME ASC LIMIT ?,?`
+pool.searchApps = (page, appsPerPage, searchString) => {
+    return new Promise(async (resolve, reject) => {
+        if (!appsPerPage || !page || !searchString) {
+        reject(new Error('Missing required field'))
+    }
+
+    try {
+        const wildcardSearchString = '%' + searchString + '%'
+        const start = ((page - 1) * appsPerPage)
+        const end = parseInt(appsPerPage)
+        const results = await pool.query(searchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
+        const appsarray = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                var date = results[i].ADATE
+                date = date.substring(5, 7) + '-' + date.substring(8, 10) + '-' + date.substring(0, 4)
+                var starttime = results[i].ASTARTTIME
+                var endtime = results[i].AENDTIME
+                var starthours = parseInt(starttime.substring(0,2))
+                var startmins = starttime.substring(3,6)
+                var endhours = parseInt(endtime.substring(0,2))
+                var endmins = endtime.substring(3,6)
+                var convertedstartHours = 0
+                var convertedendHours = 0
+                var AM_PM = ' AM'
+                if (starthours >= 13 && starthours < 24) {
+                    convertedstartHours = starthours - 12
+                    AM_PM = ' PM'
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                } else if (starthours === 12) {
+                    AM_PM = ' PM'
+                    starttime = starttime + AM_PM
+                } else if (starthours >= 24) {
+                    convertedstartHours = starthours - 12
+                    AM_PM = ' AM'
+                    starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                } else {
+                    starttime = starttime + AM_PM
+                }
+                AM_PM = ' AM'
+                if (endhours >= 13 && endhours < 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' PM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else if (endhours === 12) {
+                    AM_PM = ' PM'
+                    endtime = endtime + AM_PM
+                } else if (endhours >= 24) {
+                    convertedendHours = endhours - 12
+                    AM_PM = ' AM'
+                    endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                } else {
+                    endtime = endtime + AM_PM
+                }
+                const app = {
+                    title: results[i].TITLE,
+                    description: results[i].DESCRIPTION,
+                    date: date,
+                    starttime: starttime,
+                    endtime: endtime,
+                    fname: results[i].USER_FNAME,
+                    lname: results[i].USER_LNAME
+                }
+                appsarray[i] = app
+            }
+            resolve(appsarray)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        console.log(e)
+        reject(e)
+    }
+})
+}
+
+const numSearchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) 
+AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
+(APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
+ASTARTTIME ASC`
+pool.getNumSearchApps = searchString => {
+    return new Promise(async (resolve, reject) => {
+        const wildcardSearchString = '%' + searchString + '%'
+        try {
+            const results = await pool.query(numSearchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString])
+            resolve(results.length)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = pool

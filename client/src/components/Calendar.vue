@@ -2,9 +2,16 @@
   <section class="section">
     <div class="columns">
       <div class="column is-centered">
-        <a class="button is-primary"  @click="displayApps(1)">
-          Load Appointments
-        </a>
+        <div class="search-input-container">
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input has-icon-left" type="text" placeholder="Search" v-model="searchText" @input="displayApps(1)">
+              <span class="icon is-small is-left">
+            <i class="material-icons">search</i>
+          </span>
+            </p>
+          </div>
+        </div>
         <div class="container is-vcentered">
           <section class="section">
             <div v-if="apps.length > 0">
@@ -44,17 +51,21 @@
         apps: [],
         currentPage: 1,
         appsPerPage: 6,
-        totalApps: 0
+        totalApps: 0,
+        searchText: ''
       }
     },
     components: {
       'AppointmentItem': AppointmentItem
     },
+    created () {
+      this.displayApps(1)
+    },
     methods: {
       displayApps (page) {
         this.currentPage = page
         var newApps = []
-        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}`)
+        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}&searchText=${this.searchText}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {
