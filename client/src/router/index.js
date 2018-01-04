@@ -106,7 +106,7 @@ const router = new Router({
     },
     {
       path: '/profile/:userId',
-      name: 'Profile',
+      name: 'profile',
       props: true,
       component: Profile,
       children: [

@@ -17,8 +17,8 @@
       </section>
       <div class="tabs ">
         <ul>
-          <li v-bind:class="{ 'is-active': $route.name == 'Calendar' }">
-            <router-link :to="{ name: 'Calendar' }">
+          <li v-bind:class="{ 'is-active': $route.name == 'ProfileCalendar' }">
+            <router-link :to="{ name: 'ProfileCalendar' }">
               <div>Appointments</div>
             </router-link>
           </li>
@@ -83,7 +83,37 @@
           console.log('Failed to load channel information')
         })
       },
-      isAuthenticatedUser () {
+      following () {
+        var userId = this.user.Id
+        var followedUsers = this.$store.state.followedUsers
+        var following = followedUsers.some(function (element) {
+          return element.id === userId
+        })
+        return following
+      },
+      follow () {
+        this.$http.post(`/api/user/follow/${this.user.Id}`)
+          .then(response => {
+            if (response.data.success) {
+              var user = {
+                id: this.user.Id,
+                username: this.user.UserName
+              }
+              this.$store.commit('addFollowedUser', user)
+            }
+          }, response => {
+            console.log('Failed to follow')
+          })
+      },
+      unfollow () {
+        this.$http.post(`/api/user/unfollow/${this.user.Id}`)
+          .then(response => {
+            if (response.data.success) {
+              this.$store.commit('removeFollowedUser', this.user.Id)
+            }
+          }, response => {
+            console.log('Failed to unfollow')
+          })
       }
     }
   }

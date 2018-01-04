@@ -335,7 +335,7 @@ router.post('/api/user/unfollow/:id', async (req, res) => {
 })
 
 /**
- * @api {get} api/user/unfollow/:id Unfollow a user
+ * @api {get} api/user/following/:id Unfollow a user
  * @apiName UnfollowUser
  * @apiGroup User
  *

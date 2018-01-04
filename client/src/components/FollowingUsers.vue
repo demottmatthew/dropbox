@@ -15,21 +15,10 @@
       </div>
     </div>
     <div v-if="users.length > 0">
-      <div v-if="layout === 'grid'" class="channels-grid">
-        <div class="columns is-multiline">
-          <div class="column is-one-quarter is-half-tablet is-12-mobile" v-for="user in users" :key="user.id">
-            <div class='box' style='padding:0px;overflow:hidden;'>
-              <UserRow :user="user" :shouldDisplayName="true"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="layout === 'list'" class="channels-list">
-        <hr style="margin:0px;">
-        <div class="columns is-multiline" style="margin-top:0px;">
-          <div class="column is-12" v-for="user in users" :key="user.id" style="padding-top: 0px;padding-bottom:0px">
+      <div class="columns is-multiline">
+        <div class="column is-one-quarter is-half-tablet is-12-mobile" v-for="user in users" :key="user.id">
+          <div class='box' style='padding:0px;overflow:hidden;'>
             <UserRow :user="user" :shouldDisplayName="true"/>
-            <hr style="margin:0px;">
           </div>
         </div>
       </div>
