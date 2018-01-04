@@ -119,12 +119,6 @@ const router = new Router({
           path: '/',
           name: 'WelcomeScreen',
           component: WelcomePage
-        },
-        {
-          path: '/user/:userId',
-          name: 'BrowseProfile',
-          props: true,
-          component: Profile
         }
       ]
     }

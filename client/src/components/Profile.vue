@@ -15,6 +15,21 @@
           </div>
         </div>
       </section>
+      <div class="tabs ">
+        <ul>
+          <li v-bind:class="{ 'is-active': $route.name == 'Calendar' }">
+            <router-link :to="{ name: 'Calendar' }">
+              <span>Appointments</span>
+            </router-link>
+          </li>
+          <li v-bind:class="{ 'is-active': $route.name == 'following' }">
+            <router-link :to="{ name: 'following' }">
+              <span>Following</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -23,6 +38,7 @@
 
 <script>
   import EditProfile from './EditProfile'
+  import Calendar from './Calendar'
   var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
   var md5 = require('md5')
 
@@ -41,7 +57,8 @@
       }
     },
     components: {
-      'EditProfile': EditProfile
+      'EditProfile': EditProfile,
+      'Calendar': Calendar
     },
     created () {
       this.loadUserInformation()
