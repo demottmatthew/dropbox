@@ -282,4 +282,116 @@ router.get('/api/user/getappointments', async (req, res) => {
     }
 })
 
+/**
+ * @api {post} api/user/follow/:id Follow a user
+ * @apiName FollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to follow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ * TODO: Rename to POST /api/user/:followee/followers/:follower
+ */
+router.post('/api/user/follow/:id', async (req, res) => {
+    try {
+        await db.followUser(req.session.userId, req.params.id)
+        res.send({
+        success: true
+    })
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
+/**
+ * @api {post} api/user/unfollow/:id Unfollow a user
+ * @apiName UnfollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to unfollow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ * TODO: Rename to DELETE /api/user/:followee/followers/:follower
+ */
+router.post('/api/user/unfollow/:id', async (req, res) => {
+    try {
+        await db.unfollowUser(req.session.userId, req.params.id)
+        res.send({
+        success: true
+    })
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
+/**
+ * @api {get} api/user/following/:id Unfollow a user
+ * @apiName UnfollowUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id User to unfollow
+ *
+ * @apiSuccess {Boolean} success true
+ * @apiError   {Boolean} success false
+ * @apiError   {String}  message Error message
+ */
+router.get('/api/user/following/:id', async (req, res) => {
+    try {
+        res.send({
+        success: true,
+        following: await db.getFollowing(req.params.id)
+})
+} catch (e) {
+    res.send({
+        success: false,
+        message: e.message
+    })
+}
+})
+
+/**
+ * @api {get} /api/users/search Search for users
+ * @apiName SearchForUsers
+ * @apiGroup User
+ *
+ * @apiParam {String} query entered search word (query)
+ * @apiParam {Number} limit limit for return (query)
+ *
+ * @apiSuccess {Boolean} success    true
+ * @apiSuccess {Number}  limit      the number limit of the search
+ * @apiSuccess {Array}   users      array of 'User' objects with the username and user_id
+ * @apiError   {Boolean} success    false
+ * @apiError   {String}  message    Error message
+ */
+router.get('/api/users/search', async (req, res) => {
+    if (req.query.query === undefined) {
+        req.query.query = ''
+    }
+    if (req.query.limit === undefined) {
+        req.query.limit = 10
+    }
+    try {
+        res.send({
+            success: true,
+            limit: parseInt(req.query.limit),
+            users: await db.getSearchForUsers(req.query.query, parseInt(req.query.limit))
+    })
+    } catch (e) {
+        res.send({
+            success: false,
+            message: e
+        })
+    }
+})
+
 module.exports = router

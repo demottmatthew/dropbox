@@ -572,4 +572,118 @@ pool.getNumSearchApps = searchString => {
     })
 }
 
+const FOLLOW_Q = `INSERT INTO FOLLOWING (FOLLOWER_ID, USER_FOLLOWED_ID) VALUES(?, ?)`
+pool.followUser = (follower, followee) => {
+    return new Promise(async (resolve, reject) => {
+        if (!follower || !followee) {
+        reject(new Error('Missing a required field'))
+    }
+    try {
+        await pool.query(FOLLOW_Q, [follower, followee])
+        resolve()
+    } catch (e) {
+        reject(e)
+    }
+})
+}
+
+const UNFOLLOW_Q = `DELETE FROM FOLLOWING WHERE FOLLOWER_ID = ? AND USER_FOLLOWED_ID = ?`
+pool.unfollowUser = (follower, followee) => {
+    return new Promise(async (resolve, reject) => {
+        if (!follower || !followee) {
+        reject(new Error('Missing a required field'))
+    }
+    try {
+        await pool.query(UNFOLLOW_Q, [follower, followee])
+        resolve()
+    } catch (e) {
+        reject(e)
+    }
+})
+}
+
+const FOLLOWING_Q = 'SELECT USERNAME, USER.USER_FNAME, USER.USER_LNAME, USER.USER_EMAIL, FOLLOWING.USER_FOLLOWED_ID FROM (FOLLOWING INNER JOIN USER ON FOLLOWING.USER_FOLLOWED_ID = USER.USER_ID) WHERE FOLLOWING.FOLLOWER_ID = ?'
+pool.getFollowing = user => {
+    return new Promise(async (resolve, reject) => {
+        if (!user) {
+        reject(new Error('Missing user id'))
+    }
+
+    try {
+        const results = await pool.query(FOLLOWING_Q, [user])
+        const following = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                const userObject = {
+                    username: results[i].USERNAME,
+                    id: results[i].USER_FOLLOWED_ID,
+                    firstName: results[i].USER_FNAME,
+                    lastName: results[i].USER_LNAME,
+                    emailHash: (await crypto.hash('md5')(results[i].USER_EMAIL)).toString('hex')
+            }
+                following.push(userObject)
+            }
+
+            resolve(following)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        reject(e)
+    }
+})
+}
+
+const SEARCHUSERS_Q = 'SELECT USER_ID, USERNAME, USER_FNAME, USER_LNAME, USER_EMAIL FROM USER WHERE CONCAT(USERNAME, USER_FNAME, USER_LNAME) LIKE ? LIMIT ?'
+pool.getSearchForUsers = (searchFor, limit) => {
+    return new Promise(async (resolve, reject) => {
+        if (!searchFor || !limit) {
+        reject(new Error('Missing required field'))
+        return
+    }
+
+    try {
+        const wildcard = '%' + searchFor + '%'
+        const results = await pool.query(SEARCHUSERS_Q, [wildcard, limit])
+        const userArray = []
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+                const USER = {
+                    id: results[i].USER_ID,
+                    username: results[i].USERNAME,
+                    firstName: results[i].USER_FNAME,
+                    lastName: results[i].USER_LNAME,
+                    emailHash: (await crypto.hash('md5')(results[i].USER_EMAIL)).toString('hex')
+            }
+                userArray[i] = USER
+            }
+            resolve(userArray)
+        } else {
+            resolve([])
+        }
+    } catch (e) {
+        console.log(e)
+        reject(e)
+    }
+})
+}
+
+const NUMUSERSSEARCH_Q = 'SELECT USER_ID, USERNAME, USER_FNAME, USER_LNAME FROM USER WHERE CONCAT(USERNAME, USER_FNAME, USER_LNAME) LIKE ?'
+pool.getNumUsersSearch = searchFor => {
+    return new Promise(async (resolve, reject) => {
+        if (!searchFor) {
+        reject(new Error('Missing required field'))
+        return
+    }
+
+    try {
+        const wildcard = '%' + searchFor + '%'
+        const results = await pool.query(NUMUSERSSEARCH_Q, [wildcard])
+        resolve(results.length)
+    } catch (e) {
+        reject(e)
+    }
+})
+}
+
 module.exports = pool

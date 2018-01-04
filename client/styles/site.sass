@@ -10,111 +10,406 @@ $section-padding: 20px
 
 @import '../node_modules/bulma/bulma'
 
-html
-    font-family: 'Roboto', sans-serif
-
 .is-centered
-    text-align: center
+  text-align: center
 
 .inline-block
-    display: inline-block
+  display: inline-block
 
 .small-padding
-    padding: 5px
+  padding: 5px
 
 .left-right-margins
-    margin: 0 10px
+  margin: 0 10px
 
 .large-margins
-    margin: 15px
+  margin: 15px
 
 .full-width
-    width: 100%
+  width: 100%
 
 .fa-big
-    font-size: 30px !important
+  font-size: 30px !important
 
 .fa-huge
-    font-size: 200px !important
+  font-size: 200px !important
 
 .search-bar
-    border-radius: 15px
-    padding: 4px
-    border-color: $primary
-    box-shadow: none
+  border-radius: 15px
+  padding: 4px
+  border-color: $primary
+  box-shadow: none
 
 .search-bar:focus
-    outline: none
+  outline: none
 
 .large-buttons
-    min-width: 600px
-    min-height: 120px
-    font-size: 30px
-    border-radius: 15px
+  min-width: 600px
+  min-height: 120px
+  font-size: 30px
+  border-radius: 15px
 
 .medium-buttons
-    min-width: 300px
-    min-height: 80px
-    font-size: 20px
-    border-radius: 15px
+  min-width: 300px
+  min-height: 80px
+  font-size: 20px
+  border-radius: 15px
 
 
 li
-    list-style: none
+  list-style: none
+
+.hero
+  .title
+    padding-bottom: 20px
+  .subtitle
+    color: rgba(black, 0.5)
 
 .title-bar
-    margin-right: -20px
-    margin-left: -20px
+  margin-right: -20px
+  margin-left: -20px
 
 .profile-image
-    border-radius: 50%
-    margin-right: 10px
+  border-radius: 50%
+  margin-right: 10px
 
 .selected-tag
-    & h3
-        color: white
-    background-color: $primary
+  & h3
     color: white
+  background-color: $primary
+  color: white
 
 .upvote-button
-    border-radius: 1000px
-    color:  $success
-    padding: 10px
+  border-radius: 1000px
+  color:  $success
+  padding: 10px
 
 .downvote-button
-    border-radius: 1000px
-    color: $danger
-    padding: 10px
+  border-radius: 1000px
+  color: $danger
+  padding: 10px
 
 .upvote-button:hover
-    background-color: $success
-    color:  $white
-    padding: 10px
+  background-color: $success
+  color:  $white
+  padding: 10px
 
 .downvote-button:hover
-    background-color: $danger
-    color:  $white
-    padding: 10px
+  background-color: $danger
+  color:  $white
+  padding: 10px
 
 .left-right-buttons
-    border-radius: 1000px
-    color: $info
-    padding: 10px
+  border-radius: 1000px
+  color: $info
+  padding: 10px
 
 .left-right-buttons:hover
-    background-color: $info
-    color:  $white
-    padding: 10px
+  background-color: $info
+  color:  $white
+  padding: 10px
 
+// Grow element on hover
+.grow
+  display: inline-block
+  vertical-align: middle
+  -webkit-transform: perspective(1px) translateZ(0)
+  transform: perspective(1px) translateZ(0)
+  box-shadow: 0 0 1px transparent
+  -webkit-transition-duration: 0.1s
+  transition-duration: 0.1s
+  -webkit-transition-property: transform
+  transition-property: transform
+  &:hover
+    -webkit-transform: scale(1.06)
+    transform: scale(1.06)
+
+// Hover Content
+.hover-container
+  position: relative
+.hover-content
+  &.right
+    justify-content: flex-end
+  display: flex
+  align-items: right
+  flex-direction: row
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  color: black
+  .display-on-hover
+    display: none
+    .control
+      margin-right: 3px
+  &:hover
+    .display-on-hover
+      display: flex
+
+// Links
+a
+  &.underline-on-hover
+    text-decoration: none
+    &.is-underlined
+      text-decoration: underline
+    &.is-primary
+      color: $primary
+    &:hover
+      text-decoration: underline
+
+
+.channel-container
+  +touch
+    .divider
+      display: none !important
+  .product-container
+    color: black
+
+// Product Item
+.like-button
+  border-radius: 100px
+.dislike-button
+  border-radius: 100px
+
+.channel-card
+  padding: 0px
+  border-radius: 4px
+  overflow: hidden
+  background-color: $primary
+  position: relative
+  height: 120px
+  display: flex
+  justify-content: center
+  align-items: center
+  background-position: center
+  .channel-label
+    color: white
+    font-weight: bold
+  .trending-label
+    font-weight: bold
+    background-color: white
+    color: $primary
+    padding: 6px
+    border-radius: 1000px
+    .trending-icon
+      padding-right: 3px
+  .hover-content
+    padding: 10px
+    display: flex
+    justify-content: flex-end
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    color: black
+    opacity: 1
+    transition: transform 0.1s, opacity 0.1s
+    .display-on-hover
+      display: none
+      .control
+        margin-right: 3px
+    &:hover
+      background: rgba(white, 0.0)
+      .display-on-hover
+        display: flex
+      .control
+        margin-right: 12px
 .voting-item
-    &.small
-        height: 100px
-        .box
-            height: 100px
-            max-width: 100px
+  height: 100%
+  .box
+    padding: 12px
+  .image
+    overflow: hidden
+    img
+      object-fit: contain
+  .small
+    height: 100%
+    .box
+      height: 100%
+    .voting-button-container
+      margin-top: 15px
+    .title
+      font-size: 1em
+      font-weight: bold
+      line-height: 1em
+      height: 2em
+      overflow: hidden
+      flex-grow: 20
+      margin: 0px
+  .medium
+    .title
+      font-size: 1.4rem
+    +touch
+      .description
+        display: none
+        background: red !important
+      .title
+        font-size: 1.1rem
+  .large
+    .image
+      border: 1px rgb(219, 219, 219) solid
+      border-radius: 5px
+    .voting-button-container
+      margin-top: 12px
+  .hover-content
+    display: flex
+    justify-content: flex-end
+    align-items: stretch
+    flex-direction: column
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    color: black
+    opacity: 1
+    transition: transform 0.1s, opacity 0.1s
+    .display-on-hover
+      display: none
+      .control
+        margin-right: 3px
+    &:hover
+      background: rgba(white, 0.8)
+      .display-on-hover
+        display: flex
+      .control
+        margin-right: 12px
+
+.side-menu
+  overflow: hidden
+  min-width: 250px
+  padding: 0px
+  hr
+    margin: 0px
+  .label
+    margin-left: 12px
+    margin-top: 10px
+    color: #7a7a7a
+    font-size: 0.75em
+    letter-spacing: 0.1em
+    text-transform: uppercase
+    font-weight: normal
+  .search-input-container
+    padding: 4px
+    .input
+      border: none
+      box-shadow: none
+  .search-results-container
+    .search-results-message
+      padding: 6px 12px
+.item-link
+  display: flex
+  align-items: center
+
+.user-row
+  padding: 8px 14px
+  .hover-content
+    padding: 8px 14px
+  .button
+    width: 28px
+    height: 28px
+  .information-container
+    display: grid
+  .name
+    font-weight: 500
+    color: black
+  .username
+    color: black
+  .profile-image
+    width: 28px
+    height: 28px
+  &:hover
+    background-color: #F5F5F5
+  &.is-active
+    background-color: #F5F5F5
+
+.channel-row
+  padding: 8px 14px
+  .hover-content
+    padding: 8px 14px
+  .button
+    width: 28px
+    height: 28px
+  .channel-name
+    color: black
+  .tag
+    border-radius: 100px
+    width: 28px
+    height: 28px
+    background-color: $primary
+    color: white
+    font-size: 1.0rem
+    margin-right: 10px
+  &:hover
+    background-color: #F5F5F5
+  &.is-active
+    background-color: #F5F5F5
+// Slideout
+body
+  width: 100%
+  height: 100%
+
+.slideout-menu
+  position: fixed
+  top: 0
+  bottom: 0
+  width: 256px
+  min-height: 100vh
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  z-index: 0
+  display: none
+
+.slideout-menu-left
+  left: 0
+
+.slideout-menu-right
+  right: 0
+
+.slideout-panel
+  position: relative
+  z-index: 1
+  will-change: transform
+  background-color: #FFF /* A background-color is required */
+  min-height: 100vh
+  +desktop
+    transform: none !important
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel
+  overflow: hidden
+
+.slideout-open .slideout-menu
+  display: block
+
+.navbar-burger
+  &.left
+    margin-left: 0px
+
+#side
+  border-right: 1px solid #DBDBDB
+
+// Navigation Bar
+.navbar-link
+  color: black
+.navbar-item
+  color: black
+.navigation
+  color: black
+.navbar-burger
+  +desktop
+    display: none
+  +touch
+    display: flex
+    align-items: center
+    justify-content: center
 
 // Material Icons
 .material-icons.md-16
   font-size: 16px
 .material-icons.md-24
   font-size: 24px
+

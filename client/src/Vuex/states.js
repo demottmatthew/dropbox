@@ -9,7 +9,8 @@ export default new Vuex.Store({
     loggedIn: false,
     User: new Classes.User(),
     channels: [],
-    followedUsers: []
+    followedUsers: [],
+    layout: 'grid'
   },
   mutations: {
     setUser (state, userObject) {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     addFollowedUser (state, user) {
       state.followedUsers.push(user)
+    },
+    changeLayout (state, layout) {
+      state.layout = layout
     }
   },
   getters: {

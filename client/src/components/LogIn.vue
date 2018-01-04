@@ -83,7 +83,7 @@
                 this.user.LastName = response.data.lastName
                 this.user.Email = response.data.email
                 this.$store.commit('setUser', this.user)
-                this.$router.push({ name: 'Appointment' })
+                this.$router.push({ name: 'Browse' })
               } else {
                 this.failureMessage = response.data.message
               }
