@@ -359,4 +359,39 @@ router.get('/api/user/following/:id', async (req, res) => {
 }
 })
 
+/**
+ * @api {get} /api/users/search Search for users
+ * @apiName SearchForUsers
+ * @apiGroup User
+ *
+ * @apiParam {String} query entered search word (query)
+ * @apiParam {Number} limit limit for return (query)
+ *
+ * @apiSuccess {Boolean} success    true
+ * @apiSuccess {Number}  limit      the number limit of the search
+ * @apiSuccess {Array}   users      array of 'User' objects with the username and user_id
+ * @apiError   {Boolean} success    false
+ * @apiError   {String}  message    Error message
+ */
+router.get('/api/users/search', async (req, res) => {
+    if (req.query.query === undefined) {
+        req.query.query = ''
+    }
+    if (req.query.limit === undefined) {
+        req.query.limit = 10
+    }
+    try {
+        res.send({
+            success: true,
+            limit: parseInt(req.query.limit),
+            users: await db.getSearchForUsers(req.query.query, parseInt(req.query.limit))
+    })
+    } catch (e) {
+        res.send({
+            success: false,
+            message: e
+        })
+    }
+})
+
 module.exports = router
