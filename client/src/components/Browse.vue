@@ -6,6 +6,9 @@
           <SideMenu class="aside"></SideMenu>
         </div>
       </div>
+      <div class="container">
+          <Appointment></Appointment>
+      </div>
       <div class="column">
         <router-view></router-view>
       </div>
@@ -15,9 +18,11 @@
 
 <script>
   import SideMenu from './SideMenu.vue'
+  import Appointment from './Appointment.vue'
   export default {
     components: {
-      'SideMenu': SideMenu
+      'SideMenu': SideMenu,
+      'Appointment': Appointment
     },
     data () {
       return {

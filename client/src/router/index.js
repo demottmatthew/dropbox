@@ -15,7 +15,7 @@ import UploadFiles from '@/components/UploadFiles'
 import Appointment from '@/components/Appointment'
 import Calendar from '@/components/Calendar'
 import Files from '@/components/Files'
-// import FollowingUsers from '@/components/FollowingUsers'
+import FollowingUsers from '@/components/FollowingUsers'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -105,10 +105,24 @@ const router = new Router({
       component: Files
     },
     {
-      path: 'profile/:userId',
+      path: '/profile/:userId',
       name: 'Profile',
       props: true,
-      component: Profile
+      component: Profile,
+      children: [
+        {
+          path: 'calendar',
+          name: 'ProfileCalendar',
+          props: true,
+          component: Calendar
+        },
+        {
+          path: 'following',
+          name: 'following',
+          props: true,
+          component: FollowingUsers
+        }
+      ]
     },
     {
       path: '/',

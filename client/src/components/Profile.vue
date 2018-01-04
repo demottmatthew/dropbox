@@ -19,7 +19,7 @@
         <ul>
           <li v-bind:class="{ 'is-active': $route.name == 'Calendar' }">
             <router-link :to="{ name: 'Calendar' }">
-              <span>Appointments</span>
+              <div>Appointments</div>
             </router-link>
           </li>
           <li v-bind:class="{ 'is-active': $route.name == 'following' }">
