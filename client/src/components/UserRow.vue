@@ -2,7 +2,7 @@
   <router-link class="user-row hover-container item-link user-row-link"
     v-bind:class="{ 'is-active': user.id == $route.params.userId }"
     v-on:click.native="select()"
-    :to="{ name: 'profile', params:{ userId: user.id } }">
+    :to="{ name: 'ProfileCalendar', params:{ userId: user.id } }">
     <img class="profile-image" v-bind:src="`https://secure.gravatar.com/avatar/${user.emailHash}?s=32&d=identicon`"/>
     <div class="information-container">
       <span class="name" v-if="this.shouldDisplayName">{{ user.firstName }} {{ user.lastName}}</span>
