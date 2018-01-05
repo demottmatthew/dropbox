@@ -46,12 +46,15 @@
   import AppointmentItem from './AppointmentItem.vue'
   var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
   export default {
+    name: 'Calendar',
+    props: ['userId'],
     data () {
       return {
         apps: [],
         currentPage: 1,
         appsPerPage: 6,
         totalApps: 0,
+        uid: this.$route.params.userId,
         searchText: ''
       }
     },
@@ -63,9 +66,10 @@
     },
     methods: {
       displayApps (page) {
+        const uid = this.uid
         this.currentPage = page
         var newApps = []
-        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}&searchText=${this.searchText}`)
+        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}&searchText=${this.searchText}&uid=${uid}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {

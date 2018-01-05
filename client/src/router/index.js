@@ -111,7 +111,7 @@ const router = new Router({
       component: Profile,
       children: [
         {
-          path: 'calendar',
+          path: 'calendar/:userId',
           name: 'ProfileCalendar',
           props: true,
           component: Calendar

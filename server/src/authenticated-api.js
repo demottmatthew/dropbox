@@ -253,8 +253,8 @@ router.get('/api/user/getappointments', async (req, res) => {
                     success: true,
                     page: req.query.page,
                     appsPerPage: req.query.appsPerPage,
-                    totalApps: await db.getNumApps(req.query.page),
-                    apps: await db.getApps(req.query.page, req.query.appsPerPage)
+                    totalApps: await db.getNumApps(req.query.uid),
+                    apps: await db.getApps(req.query.page, req.query.appsPerPage, req.query.uid)
         })
         } catch (e) {
             console.log(e)
@@ -269,8 +269,8 @@ router.get('/api/user/getappointments', async (req, res) => {
                     success: true,
                     page: req.query.page,
                     appsPerPage: req.query.appsPerPage,
-                    totalApps: await db.getNumSearchApps(req.query.searchText),
-                    apps: await db.searchApps(req.query.page, req.query.appsPerPage, req.query.searchText)
+                    totalApps: await db.getNumSearchApps(req.query.searchText, req.query.uid),
+                    apps: await db.searchApps(req.query.page, req.query.appsPerPage, req.query.searchText, req.query.uid)
         })
         } catch (e) {
             console.log(e)

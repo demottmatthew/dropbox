@@ -1,13 +1,13 @@
 <template>
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link class="navbar-item" :to="{ name: 'Appointment' }">
+      <router-link class="navbar-item" :to="{ name: 'Browse' }">
         <img src="../assets/appointment.jpg">
       </router-link>
       <router-link class="navbar-item" :to="{ name: 'Browse' }">
         Appointment
       </router-link>
-      <router-link class="navbar-item" :to="{ name: 'Calendar' }">
+      <router-link class="navbar-item" :to="{ name: 'Calendar', params:{ userId: '' } }">
         Calendar
       </router-link>
     </div>

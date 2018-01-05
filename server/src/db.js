@@ -388,8 +388,14 @@ pool.addAppointment = (title, desc, date, starttime, endtime, uid) => {
 })
 }
 
-const APPS_Q = 'SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?'
-pool.getApps = (page, appsPerPage) => {
+const APPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
+SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
+
+const userAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
+SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE USER.USER_ID = ?
+ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
+pool.getApps = (page, appsPerPage, uid) => {
     return new Promise(async (resolve, reject) => {
         if (!appsPerPage || !page) {
         reject(new Error('Missing required field'))
@@ -398,7 +404,12 @@ pool.getApps = (page, appsPerPage) => {
     try {
         const start = ((page - 1) * appsPerPage)
         const end = (page * appsPerPage)
-        const results = await pool.query(APPS_Q, [start, end ])
+        var results = ''
+        if(!uid){
+            results = await pool.query(APPS_Q, [start, end ])
+        } else {
+            results = await pool.query(userAPPS_Q, [uid, start, end ])
+        }
         const appsarray = []
         if (results.length > 0) {
             for (let i = 0; i < results.length; i++) {
@@ -464,12 +475,21 @@ pool.getApps = (page, appsPerPage) => {
 })
 }
 
-const NUMAPPS_Q = 'SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)'
-pool.getNumApps = user=> {
+const NUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM 
+(APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)`
+
+const userNUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM 
+(APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE USER.USER_ID = ?`
+pool.getNumApps = uid => {
     return new Promise(async (resolve, reject) => {
         try {
-            const results = await pool.query(NUMAPPS_Q, [])
-        resolve(results.length)
+            var results = ''
+            if(!uid){
+                results = await pool.query(NUMAPPS_Q, [])
+            } else {
+                results = await pool.query(userNUMAPPS_Q, [uid])
+            }
+            resolve(results.length)
         } catch (e) {
                 reject(e)
             }
@@ -480,7 +500,10 @@ const searchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10)
 AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
 ASTARTTIME ASC LIMIT ?,?`
-pool.searchApps = (page, appsPerPage, searchString) => {
+const searchUserAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) 
+AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+WHERE USER.USER_ID = ? AND (TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ?) ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
+pool.searchApps = (page, appsPerPage, searchString, uid) => {
     return new Promise(async (resolve, reject) => {
         if (!appsPerPage || !page || !searchString) {
         reject(new Error('Missing required field'))
@@ -490,7 +513,15 @@ pool.searchApps = (page, appsPerPage, searchString) => {
         const wildcardSearchString = '%' + searchString + '%'
         const start = ((page - 1) * appsPerPage)
         const end = parseInt(appsPerPage)
-        const results = await pool.query(searchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
+        var results = ''
+        console.log("uid: " + uid)
+        if(!uid){
+            console.log("in if")
+            results = await pool.query(searchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
+        } else {
+            console.log("in else")
+            results = await pool.query(searchUserAPPS_Q, [uid, wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
+        }
         const appsarray = []
         if (results.length > 0) {
             for (let i = 0; i < results.length; i++) {
@@ -560,11 +591,20 @@ const numSearchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10)
 AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
 ASTARTTIME ASC`
-pool.getNumSearchApps = searchString => {
+
+const numSearchUserAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) 
+AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+WHERE USER.USER_ID = ? AND TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, ASTARTTIME ASC`
+pool.getNumSearchApps = (searchString, uid) => {
     return new Promise(async (resolve, reject) => {
         const wildcardSearchString = '%' + searchString + '%'
         try {
-            const results = await pool.query(numSearchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString])
+            var results = ''
+            if(!uid){
+                results = await pool.query(numSearchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString])
+            } else {
+                results = await pool.query(numSearchAPPS_Q, [uid, wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString])
+            }
             resolve(results.length)
         } catch (e) {
             reject(e)
