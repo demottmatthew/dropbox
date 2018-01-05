@@ -88,6 +88,8 @@
             this.user.LastName = response.body.user.lastName
             this.user.UserName = response.body.user.username
             this.emailHash = response.body.user.emailHash
+            // this.$router.push({ name: 'following', params: { userId: Number(userId) } })
+            // this.$router.push({ name: 'ProfileCalendar', params: { userId: this.$route.params.userId } })
           }
         }, response => {
           console.log('Failed to load channel information')

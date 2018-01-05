@@ -23,8 +23,8 @@
             <br> @{{ this.$store.state.User.UserName }}
           </div>
           <hr class="navbar-divider">
-          <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.$store.state.User.Id } }" class="navbar-item">Profile</router-link>
-          <router-link :to="{ name: 'EditProfile' }" class="navbar-item">Settings</router-link>
+          <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.$store.state.User.Id } }" class="dropdown-item">Profile</router-link>
+          <router-link :to="{ name: 'EditProfile' }" class="dropdown-item">Settings</router-link>
           <!--<a class="navbar-item">About</a>
           about is empty right now. we can add it back when we get something to put here-->
           <hr class="navbar-divider">

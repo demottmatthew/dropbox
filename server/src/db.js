@@ -514,12 +514,9 @@ pool.searchApps = (page, appsPerPage, searchString, uid) => {
         const start = ((page - 1) * appsPerPage)
         const end = parseInt(appsPerPage)
         var results = ''
-        console.log("uid: " + uid)
         if(!uid){
-            console.log("in if")
             results = await pool.query(searchAPPS_Q, [wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
         } else {
-            console.log("in else")
             results = await pool.query(searchUserAPPS_Q, [uid, wildcardSearchString, wildcardSearchString, wildcardSearchString, wildcardSearchString, start, end])
         }
         const appsarray = []

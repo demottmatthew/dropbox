@@ -50,7 +50,6 @@
       this.loadUsers()
 
       this.$on(['selectedUser'], event => {
-        this.$parent.slideout.toggle()
       })
     },
     methods: {

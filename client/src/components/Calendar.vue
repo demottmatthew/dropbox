@@ -61,6 +61,13 @@
     components: {
       'AppointmentItem': AppointmentItem
     },
+    watch: {
+      userId (id) {
+        console.log('new uid: ', id)
+        this.uid = id
+        this.displayApps(1)
+      }
+    },
     created () {
       this.displayApps(1)
     },
