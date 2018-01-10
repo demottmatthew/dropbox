@@ -25,6 +25,9 @@
         <div class="content has-text-left" v-show="!this.displayMode">
           Last Name: {{ itemLname ? itemLname : item.lname  }}
         </div>
+        <div class="column is-12">
+          <button class="button is-primary" @click="EditApp">Edit Appointment</button>
+        </div>
     </div>
   </div>
 </template>
@@ -36,6 +39,7 @@
     data () {
       return {
         displayMode: this.$route.name === 'BrowseProfile',
+        itemID: this.item.id,
         itemTitle: '',
         itemDescription: '',
         itemDate: '',
@@ -50,7 +54,8 @@
       }
     },
     methods: {
-      download (item) {
+      EditApp () {
+        this.$router.push({name: 'EditAppointment', params: {appId: this.itemID}})
       }
     }
   }

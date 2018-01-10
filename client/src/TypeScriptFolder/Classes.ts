@@ -46,6 +46,7 @@ export namespace Classes {
     }
   }
   export class AppointmentItem {
+    public id : string;
     public title : string;
     public description : string;
     public starttime : string;
@@ -54,7 +55,8 @@ export namespace Classes {
     public fname : string;
     public lname : string;
 
-    constructor(title: string = "", description: string = "", date: string, starttime: string, endtime: string, fname: string, lname: string) {
+    constructor(id: string = "", title: string = "", description: string = "", date: string, starttime: string, endtime: string, fname: string, lname: string) {
+      this.id = id;
       this.title = title;
       this.description = description;
       this.starttime = starttime;

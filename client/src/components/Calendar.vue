@@ -81,7 +81,7 @@
             console.log(response)
             if (response.data.success) {
               response.body.apps.forEach(function (el) {
-                newApps.push(new Classes.AppointmentItem(el.title, el.description, el.date, el.starttime, el.endtime, el.fname, el.lname))
+                newApps.push(new Classes.AppointmentItem(el.appid, el.title, el.description, el.date, el.starttime, el.endtime, el.fname, el.lname))
               }, this)
               this.apps = newApps
               this.totalApps = response.body.totalApps
