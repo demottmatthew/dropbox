@@ -64,12 +64,7 @@
         starttime: '',
         endtime: '',
         failureMessage: '',
-        successMessage: '',
-        oldTitle: '',
-        oldDescription: '',
-        oldDate: '',
-        oldStarttime: '',
-        oldEndtime: ''
+        successMessage: ''
       }
     },
     created () {
@@ -194,11 +189,11 @@
         this.$http.get(`/api/user/getappointment?appid=${aid}`)
           .then(response => {
             console.log(response)
-            this.oldTitle = response.body.app.title
-            this.oldDescription = response.body.app.description
-            this.oldDate = response.body.app.date
-            this.oldStarttime = response.body.app.starttime
-            this.oldEndtime = response.body.app.endtime
+            this.title = response.body.app.title
+            this.description = response.body.app.description
+            this.date = response.body.app.date
+            this.starttime = response.body.app.starttime
+            this.endtime = response.body.app.endtime
           }, response => {
             console.log(response)
           })
