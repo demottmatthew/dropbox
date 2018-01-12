@@ -55,20 +55,17 @@
 <script>
   export default {
     name: 'EditAppointment',
-    props: ['appId'],
+    props: ['item'],
     data () {
       return {
-        title: '',
-        description: '',
-        date: '',
-        starttime: '',
-        endtime: '',
         failureMessage: '',
-        successMessage: ''
+        successMessage: '',
+        title: this.item.title,
+        description: this.item.description,
+        date: this.item.date,
+        starttime: this.item.starttime,
+        endtime: this.item.endtime
       }
-    },
-    created () {
-      this.displayAppInfo(this.appId)
     },
     methods: {
       Update () {

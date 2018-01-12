@@ -96,7 +96,7 @@ const router = new Router({
       component: Appointment
     },
     {
-      path: '/edit/:appId',
+      path: '/edit',
       name: 'EditAppointment',
       props: true,
       component: EditAppointment

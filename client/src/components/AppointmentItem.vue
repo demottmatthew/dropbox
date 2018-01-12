@@ -14,10 +14,10 @@
           Date: {{ itemDate ? itemDate : item.date  }}
         </div>
         <div class="content has-text-left" v-show="!this.displayMode">
-          Start Time: {{ itemTime ? itemTime : item.starttime  }}
+          Start Time: {{ itemStarttime ? itemStarttime : item.starttime  }}
         </div>
         <div class="content has-text-left" v-show="!this.displayMode">
-          End Time: {{ itemTime ? itemTime : item.endtime  }}
+          End Time: {{ itemEndtime ? itemEndtime : item.endtime  }}
         </div>
         <div class="content has-text-left" v-show="!this.displayMode">
           First Name: {{ itemFname ? itemFname : item.fname  }}
@@ -50,7 +50,8 @@
         itemTitle: '',
         itemDescription: '',
         itemDate: '',
-        itemTime: '',
+        itemStarttime: '',
+        itemEndtime: '',
         itemFname: '',
         itemLname: '',
         itemUID: this.item.uid,
@@ -64,7 +65,7 @@
     },
     methods: {
       EditApp () {
-        this.$router.push({name: 'EditAppointment', params: {appId: this.itemID}})
+        this.$router.push({name: 'EditAppointment', params: {item: this.item}})
       },
       ViewProfile () {
         this.$router.push({name: 'ProfileCalendar', params: {userId: this.itemUID}})
