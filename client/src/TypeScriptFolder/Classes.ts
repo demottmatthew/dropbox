@@ -54,8 +54,10 @@ export namespace Classes {
     public date : string;
     public fname : string;
     public lname : string;
+    public uid : string;
+    public profileID : string;
 
-    constructor(id: string = "", title: string = "", description: string = "", date: string, starttime: string, endtime: string, fname: string, lname: string) {
+    constructor(id: string = "", title: string = "", description: string = "", date: string, starttime: string, endtime: string, fname: string, lname: string, uid: string, profileID : string) {
       this.id = id;
       this.title = title;
       this.description = description;
@@ -64,6 +66,8 @@ export namespace Classes {
       this.date = date
       this.fname = fname;
       this.lname = lname;
+      this.uid = uid;
+      this.profileID = profileID;
     }
   }
 }

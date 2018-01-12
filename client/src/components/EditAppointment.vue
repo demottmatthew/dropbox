@@ -17,31 +17,31 @@
           <div class="field">
             <label class="label">Title</label>
             <div class="control">
-              <input class="input" type="text" v-bind:placeholder="oldTitle" v-model="title" />
+              <input class="input" type="text" placeholder="" v-model="title" />
             </div>
           </div>
           <div class="field">
             <label class="label">Description</label>
             <div class="control">
-              <input class="input" type="text" v-bind:placeholder="oldDescription" v-model="description" @keydown.enter="Update"/>
+              <input class="input" type="text" placeholder="" v-model="description" @keydown.enter="Update"/>
             </div>
           </div>
           <div class="field">
             <label class="label">Date</label>
             <div class="control">
-              <input class="input" type="text" v-bind:placeholder="oldDate" v-model="date" @keydown.enter="Update"/>
+              <input class="input" type="text" placeholder="" v-model="date" @keydown.enter="Update"/>
             </div>
           </div>
           <div class="field">
             <label class="label">Start Time</label>
             <div class="control">
-              <input class="input" type="text" v-bind:placeholder="oldStarttime" v-model="starttime" @keydown.enter="Update"/>
+              <input class="input" type="text" placeholder="" v-model="starttime" @keydown.enter="Update"/>
             </div>
           </div>
           <div class="field">
             <label class="label">End Time</label>
             <div class="control">
-              <input class="input" type="text" v-bind:placeholder="oldEndtime" v-model="endtime" @keydown.enter="Update"/>
+              <input class="input" type="text" placeholder="" v-model="endtime" @keydown.enter="Update"/>
             </div>
           </div>
           <button class="button is-primary" @click="Update">Update Appointment</button>

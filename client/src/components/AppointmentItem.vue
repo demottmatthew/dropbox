@@ -25,8 +25,15 @@
         <div class="content has-text-left" v-show="!this.displayMode">
           Last Name: {{ itemLname ? itemLname : item.lname  }}
         </div>
-        <div class="column is-12">
-          <button class="button is-primary" @click="EditApp">Edit Appointment</button>
+        <div v-if="item.uid == this.$store.state.User.Id">
+          <div class="has-text-left">
+            <button class="button is-primary" @click="EditApp">Edit Appointment</button>
+          </div>
+        </div>
+        <div v-else-if="profileID == ''">
+          <div class="has-text-left">
+            <button class="button is-primary" @click="ViewProfile">View Profile</button>
+          </div>
         </div>
     </div>
   </div>
@@ -45,7 +52,9 @@
         itemDate: '',
         itemTime: '',
         itemFname: '',
-        itemLname: ''
+        itemLname: '',
+        itemUID: this.item.uid,
+        profileID: this.item.profileID
       }
     },
     computed: {
@@ -56,6 +65,9 @@
     methods: {
       EditApp () {
         this.$router.push({name: 'EditAppointment', params: {appId: this.itemID}})
+      },
+      ViewProfile () {
+        this.$router.push({name: 'ProfileCalendar', params: {userId: this.itemUID}})
       }
     }
   }
