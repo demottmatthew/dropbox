@@ -394,4 +394,34 @@ router.get('/api/users/search', async (req, res) => {
     }
 })
 
+router.get('/api/user/getappointment', async (req, res) => {
+    try {
+        res.send({
+            success: true,
+            app: await db.getApp(req.query.appid)
+    })
+    } catch (e) {
+        console.log(e)
+        res.send({
+            success: false,
+            message: e
+        })
+    }
+})
+
+router.post('/api/update/appointment', async (req, res) => {
+    try {
+        await db.updateApp(req.body.id, req.body.title, req.body.desc, req.body.date, req.body.starttime, req.body.endtime)
+        res.send({
+        success: true
+    })
+    } catch (e) {
+        res.send({
+            success: false,
+            message: e.message
+        })
+    }
+})
+
+
 module.exports = router

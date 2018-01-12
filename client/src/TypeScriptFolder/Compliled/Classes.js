@@ -49,7 +49,8 @@ var Classes;
   Classes.FileItem = FileItem
 
   var AppointmentItem = (function () {
-    function AppointmentItem (title, description, date, starttime, endtime, fname, lname) {
+    function AppointmentItem (id, title, description, date, starttime, endtime, fname, lname, uid, profileID) {
+      if (id === void 0) { id = '' }
       if (title === void 0) { title = '' }
       if (description === void 0) { description = '' }
       if (date === void 0) { date = '' }
@@ -57,6 +58,9 @@ var Classes;
       if (endtime === void 0) { endtime = '' }
       if (fname === void 0) { fname = '' }
       if (lname === void 0) { lname = '' }
+      if (uid === void 0) { uid = '' }
+      if (profileID === void 0) { profileID = '' }
+      this.id = id
       this.title = title
       this.description = description
       this.date = date
@@ -64,6 +68,8 @@ var Classes;
       this.starttime = starttime
       this.fname = fname
       this.lname = lname
+      this.uid = uid
+      this.profileID = profileID
     }
     return AppointmentItem
   }())

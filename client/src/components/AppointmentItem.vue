@@ -25,6 +25,16 @@
         <div class="content has-text-left" v-show="!this.displayMode">
           Last Name: {{ itemLname ? itemLname : item.lname  }}
         </div>
+        <div v-if="item.uid == this.$store.state.User.Id">
+          <div class="has-text-left">
+            <button class="button is-primary" @click="EditApp">Edit Appointment</button>
+          </div>
+        </div>
+        <div v-else-if="profileID == ''">
+          <div class="has-text-left">
+            <button class="button is-primary" @click="ViewProfile">View Profile</button>
+          </div>
+        </div>
     </div>
   </div>
 </template>
@@ -36,12 +46,15 @@
     data () {
       return {
         displayMode: this.$route.name === 'BrowseProfile',
+        itemID: this.item.id,
         itemTitle: '',
         itemDescription: '',
         itemDate: '',
         itemTime: '',
         itemFname: '',
-        itemLname: ''
+        itemLname: '',
+        itemUID: this.item.uid,
+        profileID: this.item.profileID
       }
     },
     computed: {
@@ -50,7 +63,11 @@
       }
     },
     methods: {
-      download (item) {
+      EditApp () {
+        this.$router.push({name: 'EditAppointment', params: {appId: this.itemID}})
+      },
+      ViewProfile () {
+        this.$router.push({name: 'ProfileCalendar', params: {userId: this.itemUID}})
       }
     }
   }

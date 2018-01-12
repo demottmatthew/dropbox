@@ -16,6 +16,7 @@ import Appointment from '@/components/Appointment'
 import Calendar from '@/components/Calendar'
 import Files from '@/components/Files'
 import FollowingUsers from '@/components/FollowingUsers'
+import EditAppointment from '@/components/EditAppointment'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -95,6 +96,12 @@ const router = new Router({
       component: Appointment
     },
     {
+      path: '/edit/:appId',
+      name: 'EditAppointment',
+      props: true,
+      component: EditAppointment
+    },
+    {
       path: '/calendar',
       name: 'Calendar',
       component: Calendar
@@ -130,7 +137,7 @@ const router = new Router({
       component: Browse,
       children: [
         {
-          path: '/',
+          path: 'Welcome',
           name: 'WelcomeScreen',
           component: WelcomePage
         }

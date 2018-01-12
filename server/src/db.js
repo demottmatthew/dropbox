@@ -388,12 +388,12 @@ pool.addAppointment = (title, desc, date, starttime, endtime, uid) => {
 })
 }
 
-const APPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
-SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+const APPS_Q = `SELECT APP_ID, TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
+SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
 ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
 
-const userAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
-SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE USER.USER_ID = ?
+const userAPPS_Q = `SELECT APP_ID, TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
+SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE USER.USER_ID = ?
 ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
 pool.getApps = (page, appsPerPage, uid) => {
     return new Promise(async (resolve, reject) => {
@@ -454,13 +454,15 @@ pool.getApps = (page, appsPerPage, uid) => {
                     endtime = endtime + AM_PM
                 }
                 const app = {
+                    appid: results[i].APP_ID,
                     title: results[i].TITLE,
                     description: results[i].DESCRIPTION,
                     date: date,
                     starttime: starttime,
                     endtime: endtime,
                     fname: results[i].USER_FNAME,
-                    lname: results[i].USER_LNAME
+                    lname: results[i].USER_LNAME,
+                    userID: results[i].USER_ID
                 }
                 appsarray[i] = app
             }
@@ -475,10 +477,10 @@ pool.getApps = (page, appsPerPage, uid) => {
 })
 }
 
-const NUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM 
+const NUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID)`
 
-const userNUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME FROM 
+const userNUMAPPS_Q = `SELECT TITLE, DESCRIPTION, APP_DATE, APP_STARTTIME, APP_ENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE USER.USER_ID = ?`
 pool.getNumApps = uid => {
     return new Promise(async (resolve, reject) => {
@@ -496,12 +498,12 @@ pool.getNumApps = uid => {
         })
 }
 
-const searchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) 
-AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
+const searchAPPS_Q = `SELECT APP_ID, TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) 
+AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
 ASTARTTIME ASC LIMIT ?,?`
-const searchUserAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) 
-AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+const searchUserAPPS_Q = `SELECT APP_ID, TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) 
+AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
 WHERE USER.USER_ID = ? AND (TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ?) ORDER BY APP_DATE, ASTARTTIME ASC LIMIT ?,?`
 pool.searchApps = (page, appsPerPage, searchString, uid) => {
     return new Promise(async (resolve, reject) => {
@@ -563,13 +565,15 @@ pool.searchApps = (page, appsPerPage, searchString, uid) => {
                     endtime = endtime + AM_PM
                 }
                 const app = {
+                    appid: results[i].APP_ID,
                     title: results[i].TITLE,
                     description: results[i].DESCRIPTION,
                     date: date,
                     starttime: starttime,
                     endtime: endtime,
                     fname: results[i].USER_FNAME,
-                    lname: results[i].USER_LNAME
+                    lname: results[i].USER_LNAME,
+                    userID: results[i].USER_ID
                 }
                 appsarray[i] = app
             }
@@ -585,12 +589,12 @@ pool.searchApps = (page, appsPerPage, searchString, uid) => {
 }
 
 const numSearchAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) 
-AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM 
+AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM 
 (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) WHERE TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, 
 ASTARTTIME ASC`
 
 const numSearchUserAPPS_Q = `SELECT TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) 
-AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+AS ASTARTTIME, SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
 WHERE USER.USER_ID = ? AND TITLE LIKE ? OR DESCRIPTION LIKE ? OR USER_FNAME LIKE ? OR USER_LNAME LIKE ? ORDER BY APP_DATE, ASTARTTIME ASC`
 pool.getNumSearchApps = (searchString, uid) => {
     return new Promise(async (resolve, reject) => {
@@ -709,15 +713,109 @@ const NUMUSERSSEARCH_Q = 'SELECT USER_ID, USERNAME, USER_FNAME, USER_LNAME FROM 
 pool.getNumUsersSearch = searchFor => {
     return new Promise(async (resolve, reject) => {
         if (!searchFor) {
-        reject(new Error('Missing required field'))
+            reject(new Error('Missing required field'))
+            return
+        }
+
+        try {
+            const wildcard = '%' + searchFor + '%'
+            const results = await pool.query(NUMUSERSSEARCH_Q, [wildcard])
+            resolve(results.length)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const getAPP_Q = `SELECT APP_ID, TITLE, DESCRIPTION, SUBSTRING(APP_DATE, 1, 10) AS ADATE, SUBSTRING(APP_STARTTIME, 1, 5) AS ASTARTTIME, 
+SUBSTRING(APP_ENDTIME, 1, 5) AS AENDTIME, USER_FNAME, USER_LNAME, APPOINTMENTS.USER_ID FROM (APPOINTMENTS INNER JOIN USER ON APPOINTMENTS.USER_ID = USER.USER_ID) 
+WHERE APP_ID = ?`
+
+pool.getApp = (appid) => {
+    return new Promise(async (resolve, reject) => {
+        if (!appid) {
+            reject(new Error('Missing required field'))
+        }
+
+        try {
+            var results = ''
+            results = await pool.query(getAPP_Q, [appid])
+            if (results.length > 0) {
+                    var date = results[0].ADATE
+                    date = date.substring(5, 7) + '-' + date.substring(8, 10) + '-' + date.substring(0, 4)
+                    var starttime = results[0].ASTARTTIME
+                    var endtime = results[0].AENDTIME
+                    var starthours = parseInt(starttime.substring(0,2))
+                    var startmins = starttime.substring(3,6)
+                    var endhours = parseInt(endtime.substring(0,2))
+                    var endmins = endtime.substring(3,6)
+                    var convertedstartHours = 0
+                    var convertedendHours = 0
+                    var AM_PM = ' AM'
+                    if (starthours >= 13 && starthours < 24) {
+                        convertedstartHours = starthours - 12
+                        AM_PM = ' PM'
+                        starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                    } else if (starthours === 12) {
+                        AM_PM = ' PM'
+                        starttime = starttime + AM_PM
+                    } else if (starthours >= 24) {
+                        convertedstartHours = starthours - 12
+                        AM_PM = ' AM'
+                        starttime = convertedstartHours.toString() + ':' + startmins.toString() + AM_PM
+                    } else {
+                        starttime = starttime + AM_PM
+                    }
+                    AM_PM = ' AM'
+                    if (endhours >= 13 && endhours < 24) {
+                        convertedendHours = endhours - 12
+                        AM_PM = ' PM'
+                        endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                    } else if (endhours === 12) {
+                        AM_PM = ' PM'
+                        endtime = endtime + AM_PM
+                    } else if (endhours >= 24) {
+                        convertedendHours = endhours - 12
+                        AM_PM = ' AM'
+                        endtime = convertedendHours.toString() + ':' + endmins.toString() + AM_PM
+                    } else {
+                        endtime = endtime + AM_PM
+                    }
+                    const app = {
+                        appid: results[0].APP_ID,
+                        title: results[0].TITLE,
+                        description: results[0].DESCRIPTION,
+                        date: date,
+                        starttime: starttime,
+                        endtime: endtime,
+                        fname: results[0].USER_FNAME,
+                        lname: results[0].USER_LNAME,
+                        userID: results[0].USER_ID
+                    }
+                resolve(app)
+            } else {
+                resolve([])
+            }
+        } catch (e) {
+            console.log(e)
+            reject(e)
+        }
+    })
+}
+
+const updateAPPOINTMENT_Q = 'UPDATE APPOINTMENTS SET TITLE = ?, DESCRIPTION = ?, APP_DATE = ?, APP_STARTTIME = ?, APP_ENDTIME = ? WHERE APP_ID = ?'
+
+pool.updateApp = (id, title, desc, date, starttime, endtime) => {
+    return new Promise(async (resolve, reject) => {
+        if (!id || !title || !desc || !date || !starttime || !endtime) {
+        reject(new Error('Missing a required field'))
         return
     }
-
     try {
-        const wildcard = '%' + searchFor + '%'
-        const results = await pool.query(NUMUSERSSEARCH_Q, [wildcard])
-        resolve(results.length)
+        await pool.query(updateAPPOINTMENT_Q, [title, desc, date, starttime, endtime, id])
+        resolve()
     } catch (e) {
+        console.error(e);
         reject(e)
     }
 })
