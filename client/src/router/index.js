@@ -104,6 +104,13 @@ const router = new Router({
     {
       path: '/calendar',
       name: 'Calendar',
+      props: true,
+      component: Calendar
+    },
+    {
+      path: '/calendar/archive',
+      name: 'ArchiveCalendar',
+      props: true,
       component: Calendar
     },
     {
@@ -120,6 +127,12 @@ const router = new Router({
         {
           path: 'calendar/:userId',
           name: 'ProfileCalendar',
+          props: true,
+          component: Calendar
+        },
+        {
+          path: 'calendar/archive/:userId',
+          name: 'ProfileArchiveCalendar',
           props: true,
           component: Calendar
         },

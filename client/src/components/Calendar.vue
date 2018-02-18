@@ -47,7 +47,7 @@
   var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
   export default {
     name: 'Calendar',
-    props: ['userId'],
+    props: ['userId', 'vbit'],
     data () {
       return {
         apps: [],
@@ -55,7 +55,8 @@
         appsPerPage: 6,
         totalApps: 0,
         uid: this.$route.params.userId,
-        searchText: ''
+        searchText: '',
+        validbit: this.$route.params.vbit
       }
     },
     components: {
@@ -63,8 +64,11 @@
     },
     watch: {
       userId (id) {
-        console.log('new uid: ', id)
         this.uid = id
+        this.displayApps(1)
+      },
+      vbit (vb) {
+        this.validbit = vb
         this.displayApps(1)
       }
     },
@@ -76,7 +80,8 @@
         const uid = this.uid
         this.currentPage = page
         var newApps = []
-        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}&searchText=${this.searchText}&uid=${uid}`)
+        console.log(this.validbit)
+        this.$http.get(`/api/user/getappointments?appsPerPage=${this.appsPerPage}&page=${page}&searchText=${this.searchText}&uid=${uid}&vbit=${this.validbit}`)
           .then(response => {
             console.log(response)
             if (response.data.success) {

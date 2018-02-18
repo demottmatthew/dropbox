@@ -7,8 +7,11 @@
       <router-link class="navbar-item" :to="{ name: 'Browse' }">
         Appointment
       </router-link>
-      <router-link class="navbar-item" :to="{ name: 'Calendar', params:{ userId: '' } }">
+      <router-link class="navbar-item" :to="{ name: 'Calendar', params:{ userId: '', vbit: '1' } }">
         Calendar
+      </router-link>
+      <router-link class="navbar-item" :to="{ name: 'ArchiveCalendar', params:{ userId: '', vbit: '0' } }">
+        Archive
       </router-link>
     </div>
     <div class="navbar-end">
@@ -23,7 +26,7 @@
             <br> @{{ this.$store.state.User.UserName }}
           </div>
           <hr class="navbar-divider">
-          <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.$store.state.User.Id } }" class="dropdown-item">Profile</router-link>
+          <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.$store.state.User.Id, vbit: '1' } }" class="dropdown-item">Profile</router-link>
           <router-link :to="{ name: 'EditProfile' }" class="dropdown-item">Settings</router-link>
           <!--<a class="navbar-item">About</a>
           about is empty right now. we can add it back when we get something to put here-->

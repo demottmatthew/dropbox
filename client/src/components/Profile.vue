@@ -28,8 +28,13 @@
       <div class="tabs ">
         <ul>
           <li v-bind:class="{ 'is-active': $route.name == 'ProfileCalendar'}">
-            <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.userId }  }">
+            <router-link :to="{ name: 'ProfileCalendar', params:{ userId: this.userId, vbit: '1' }  }">
               <div>Appointments</div>
+            </router-link>
+          </li>
+          <li v-bind:class="{ 'is-active': $route.name == 'ProfileArchiveCalendar'}">
+            <router-link :to="{ name: 'ProfileArchiveCalendar', params:{ userId: this.userId, vbit: '0' }  }">
+              <div>Archive Appointments</div>
             </router-link>
           </li>
           <li v-bind:class="{ 'is-active': $route.name == 'following' }">

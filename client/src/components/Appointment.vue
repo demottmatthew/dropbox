@@ -179,7 +179,7 @@
           .then(response => { // Success
             if (response.data.success) {
               this.successMessage = 'Appointment Added'
-              this.$router.push({name: 'Calendar'})
+              this.$router.push({name: 'Calendar', params: {userId: '', vbit: '1'}})
             } else {
               this.failureMessage = response.data.message
             }
