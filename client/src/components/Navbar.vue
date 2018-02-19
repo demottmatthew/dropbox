@@ -1,20 +1,52 @@
 <template>
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <router-link class="navbar-item" :to="{ name: 'Browse' }">
-        <img src="../assets/appointment.jpg">
-      </router-link>
-      <router-link class="navbar-item" :to="{ name: 'Browse' }">
-        Appointment
-      </router-link>
-      <router-link class="navbar-item" :to="{ name: 'Calendar', params:{ userId: '', vbit: '1' } }">
-        Calendar
-      </router-link>
-      <router-link class="navbar-item" :to="{ name: 'ArchiveCalendar', params:{ userId: '', vbit: '0' } }">
-        Archive
-      </router-link>
+    <div v-if="$route.name === 'Home'">
+      <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Login' }">
+          Login
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Register' }">
+          Register
+        </router-link>
+      </div>
     </div>
-    <div class="navbar-end">
+    <div v-else-if="$route.name === 'Login'">
+      <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Login' }">
+          Login
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Register' }">
+          Register
+        </router-link>
+      </div>
+    </div>
+    <div v-else-if="$route.name === 'Register'">
+      <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Login' }">
+          Login
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Register' }">
+          Register
+        </router-link>
+      </div>
+    </div>
+    <div v-else>
+      <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Browse' }">
+          <img src="../assets/appointment.jpg">
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Browse' }">
+          Appointment
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Calendar', params:{ userId: '', vbit: '1' } }">
+          Calendar
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'ArchiveCalendar', params:{ userId: '', vbit: '0' } }">
+          Archive
+        </router-link>
+      </div>
+    </div>
+    <div v-if="this.$store.state.loggedIn === true" class="navbar-end">
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           <img v-bind:src="'https://secure.gravatar.com/avatar/' + hash(this.$store.state.User.Email) + '?s=46&d=identicon'" class="profile-image" />

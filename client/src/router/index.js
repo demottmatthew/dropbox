@@ -17,6 +17,7 @@ import Calendar from '@/components/Calendar'
 import Files from '@/components/Files'
 import FollowingUsers from '@/components/FollowingUsers'
 import EditAppointment from '@/components/EditAppointment'
+import LandingPage from '@/components/LandingPage'
 
 // var store = require('../Vuex/states')
 var Classes = require('../TypeScriptFolder/Compliled/Classes').Classes
@@ -50,11 +51,12 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: LogIn,
-      meta: {
-        hideNav: true,
-        requireAuth: false
-      }
+      component: LogIn
+    },
+    {
+      path: '/home',
+      name: 'Home',
+      component: LandingPage
     },
     {
       path: '/register',
@@ -168,7 +170,7 @@ const router = new Router({
 // If they are authenticated, they can continue.
 router.beforeEach((to, from, next) => {
   // An array of routes that do not require authentication
-  const noAuthRequired = ['/register', '/login', '/reset']
+  const noAuthRequired = ['/register', '/login', '/reset', '/home']
   if (!noAuthRequired.includes(to.path) &&
     to.path.indexOf('/reset') === -1) {
     // Check to see if a session exists for the user
@@ -185,11 +187,11 @@ router.beforeEach((to, from, next) => {
           router.app.$store.commit('setUser', user)
           next()
         } else {
-          next({ path: '/login' })
+          next({ path: '/home' })
         }
       }, response => {
         console.log(response)
-        next({ path: '/login' })
+        next({ path: '/home' })
       })
   } else {
     next()
