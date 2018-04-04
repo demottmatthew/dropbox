@@ -61,11 +61,7 @@ const router = new Router({
     {
       path: '/register',
       name: 'Register',
-      component: Register,
-      meta: {
-        hideNav: true,
-        requireAuth: false
-      }
+      component: Register
     },
     {
       path: '/reset/:token?',

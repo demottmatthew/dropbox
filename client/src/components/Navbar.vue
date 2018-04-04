@@ -2,16 +2,28 @@
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div v-if="$route.name === 'Home'">
       <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          <img src="../assets/appointment.jpg">
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          Home
+        </router-link>
         <router-link class="navbar-item" :to="{ name: 'Login' }">
           Login
         </router-link>
         <router-link class="navbar-item" :to="{ name: 'Register' }">
-          Register
+          Sign Up
         </router-link>
       </div>
     </div>
     <div v-else-if="$route.name === 'Login'">
       <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          <img src="../assets/appointment.jpg">
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          Home
+        </router-link>
         <router-link class="navbar-item" :to="{ name: 'Login' }">
           Login
         </router-link>
@@ -22,6 +34,12 @@
     </div>
     <div v-else-if="$route.name === 'Register'">
       <div class="navbar-brand">
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          <img src="../assets/appointment.jpg">
+        </router-link>
+        <router-link class="navbar-item" :to="{ name: 'Home' }">
+          Home
+        </router-link>
         <router-link class="navbar-item" :to="{ name: 'Login' }">
           Login
         </router-link>
@@ -85,7 +103,7 @@
         this.$http.get('/api/logout')
           .then(response => {
             this.$store.commit('LogOut')
-            this.$router.push({ name: 'Login' })
+            this.$router.push({ name: 'Home' })
           }, response => {
             console.log(response)
           })
