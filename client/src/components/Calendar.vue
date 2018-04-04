@@ -77,6 +77,21 @@
     },
     methods: {
       displayApps (page) {
+        var str = this.$route.fullPath
+        if (this.uid == null) {
+          this.uid = ''
+        }
+        if (this.$route.fullPath === '/calendar') {
+          this.validbit = '1'
+        } else if (this.$route.fullPath === '/calendar/archive') {
+          this.validbit = '0'
+        } else if (str.substring(10, str.length - 1) === '/calendar/') {
+          this.validbit = '1'
+          this.uid = this.$route.params.userId
+        } else if (str.substring(10, str.length - 1) === '/calendar/archive/') {
+          this.validbit = '0'
+          this.uid = this.$route.params.userId
+        }
         const uid = this.uid
         this.currentPage = page
         var newApps = []

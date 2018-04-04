@@ -68,7 +68,7 @@
         this.$router.push({name: 'EditAppointment', params: {item: this.item}})
       },
       ViewProfile () {
-        this.$router.push({name: 'ProfileCalendar', params: {userId: this.itemUID}})
+        this.$router.push({name: 'ProfileCalendar', params: { userId: this.itemUID, vbit: '1' }})
       }
     }
   }
