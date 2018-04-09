@@ -60,6 +60,7 @@
       return {
         failureMessage: '',
         successMessage: '',
+        appId: this.item.id,
         title: this.item.title,
         description: this.item.description,
         date: this.item.date,
